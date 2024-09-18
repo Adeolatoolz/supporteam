@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;500;600&amp;display=swap');
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background: url('BG.png') #1f232f;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body h1 {
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: lighter;
+  font-size: 32px;
+  line-height: 38px;
+  text-transform: uppercase;
+
+  text-align: center;
+
+  color: #ffffff;
+}
+
+@media screen and (max-width: 1185px) {
+  body .menu .blocks {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  body .menu .crypto:first-child {
+    margin-top: 0px;
+  }
+
+  body .menu .crypto {
+    margin-right: 0 !important;
+    margin-top: 24px;
+  }
+}
+
+@media screen and (max-width: 1410px) {
+  body .menu .crypto {
+    width: 300px !important;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  body .menu .crypto {
+    width: 260px !important;
+  }
+}
+
+body .menu .blocks {
+  display: flex;
+}
+
+body .menu .crypto:last-child {
+  margin-right: 0;
+}
+
+body .menu .crypto {
+  position: relative;
+  background: linear-gradient(99.85deg, #1d212b 0%, #2a2d36 100%);
+  width: 20vw;
+  font-family: Rubik;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 28px;
+  color: #3d4049;
+  margin-right: 24px;
+  border-radius: 15px;
+}
+
+body .menu .crypto .margin {
+  margin: 32px;
+
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+body .menu .crypto img {
+  width: 60px;
+  height: 100%;
+  margin-right: 30px;
+}
+
+body .menu .crypto .info h3,
+body .menu .crypto .info p {
+  margin: 0;
+}
+
+body .menu .crypto .info h3 {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 28px;
+
+  color: #ffffff;
+}
+
+body .menu .crypto .info .stats {
+  margin-top: 8px;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+body .menu .crypto .info .stats span {
+  color: #ffffff;
+}
+
+body .menu .crypto .info p {
+  margin-top: 8px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  text-transform: uppercase;
+}
+
+body .menu .crypto .progressbar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 4px;
+  background: #3d4049;
+  border-radius: 4px;
+}
+
+body .menu .crypto .progress {
+  position: absolute;
+  bottom: 0;
+  width: 40%;
+  height: 4px;
+  background: linear-gradient(135deg, #0085ff 0%, #1453cd 100%);
+  border-radius: 4px;
+}
