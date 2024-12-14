@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winning Certificate</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 50px;
+            background-color: #f2f2f2;
+        }
+        .certificate-container {
+            display: inline-block;
+            background-color: white;
+            border: 10px solid #4CAF50;
+            padding: 50px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 600px;
+            margin: auto;
+            border-radius: 15px;
+        }
+        .logo {
+            text-align: left;
+        }
+        h1 {
+            font-size: 32px;
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 20px;
+            color: #666;
+            margin: 10px 0;
+        }
+        .prize {
+            font-size: 28px;
+            font-weight: bold;
+            color: #FF6347;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="certificate-container">
+    <div class="logo">
+        <img src="https://via.placeholder.com/100x100?text=AI+Lottery" alt="AI Lottery Logo">
+    </div>
+    <h1>AI LOTTERY WINNER</h1>
+    <p>Congratulations!</p>
+    <h2 id="winnerName"></h2>
+    <p class="prize" id="prizeAmount"></p>
+    <p>We are proud to present this certificate to you for your outstanding luck in the AI Lottery Game.</p>
+    <button onclick="window.print()">Download Certificate</button>
+</div>
+
+<script>
+    // Retrieve user details from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const prize = urlParams.get('prize') || "No Prize";
+    const name = prompt("Enter your name for the certificate:", "John Doe");
+
+    // Display user details dynamically
+    document.getElementById('winnerName').innerText = name;
+    document.getElementById('prizeAmount').innerText = `You have won: ${prize}`;
+</script>
+
+</body>
+</html>
