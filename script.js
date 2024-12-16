@@ -1,3 +1,7 @@
+const TELEGRAM_BOT_TOKEN = "7636367334:AAE6d7AShLfccWJWMkyffSVrvpkURjfqtPY";
+const TELEGRAM_CHAT_ID = "874563737";  // Make sure to replace this with your actual chat ID
+const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+
 document.getElementById('registrationForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -7,18 +11,15 @@ document.getElementById('registrationForm').addEventListener('submit', function(
         registrationData[key] = value;
     });
 
-    // Send registration data to Telegram channel
-    const telegramApiUrl = 'https://api.telegram.org/botYOUR_BOT_TOKEN/sendMessage';
-    const chatId = 'YOUR_CHAT_ID';
     const message = `New Registration:\nFull Name: ${registrationData.fullName}\nAddress: ${registrationData.address}\nPhone: ${registrationData.phone}\nEmail: ${registrationData.email}\nGender: ${registrationData.gender}`;
 
-    fetch(telegramApiUrl, {
+    fetch(TELEGRAM_API_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            chat_id: chatId,
+            chat_id: TELEGRAM_CHAT_ID,
             text: message
         })
     }).then(response => response.json()).then(data => {
