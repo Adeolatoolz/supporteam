@@ -26,7 +26,7 @@
                 <option value="other">Other</option>
             </select>
             <label for="picture">Upload Picture:</label>
-            <input type="file" id="picture" name="picture" required>
+            <input type="file" id="picture" name="picture" accept="image/*" required>
             <button type="submit">Register</button>
         </form>
     </div>
@@ -39,7 +39,7 @@
         <h2>Congratulations!</h2>
         <p id="certificateText"></p>
         <button id="downloadCertificate">Download Certificate</button>
-        <p>Note: You need to pay $-- to stamp your certificate.</p>
+        <p>Note: You need to pay $<span id="paymentAmount"></span> to stamp your certificate.</p>
         <button id="payBitcoin">Pay with Bitcoin</button>
     </div>
     <script src="script.js"></script>
