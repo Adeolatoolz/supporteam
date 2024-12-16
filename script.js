@@ -8,7 +8,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     });
     
     // Send registration data to Telegram channel
-    const telegramApiUrl = '7636367334:AAE6d7AShLfccWJWMkyffSVrvpkURjfqtPY';
+     const TELEGRAM_BOT_TOKEN = "7636367334:AAE6d7AShLfccWJWMkyffSVrvpkURjfqtPY";
     const chatId = '874563737';
     const message = `New Registration:\nFull Name: ${registrationData.fullName}\nAddress: ${registrationData.address}\nPhone: ${registrationData.phone}\nEmail: ${registrationData.email}\nGender: ${registrationData.gender}`;
     
