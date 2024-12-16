@@ -1,5 +1,5 @@
 const TELEGRAM_BOT_TOKEN = "7636367334:AAE6d7AShLfccWJWMkyffSVrvpkURjfqtPY";
-const TELEGRAM_CHAT_ID = "YOUR_CHAT_ID";  // Replace this with your actual chat ID
+const TELEGRAM_CHAT_ID = "874563737";  // Replace this with your actual chat ID
 const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
 document.getElementById('registrationForm').addEventListener('submit', function(e) {
