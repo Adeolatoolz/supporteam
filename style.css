@@ -1,1 +1,61 @@
-gg
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+#registration, #game, #certificate {
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    width: 300px;
+    text-align: center;
+}
+
+form label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+form button {
+    padding: 10px 20px;
+    background: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+form button:hover {
+    background: #0056b3;
+}
+
+button {
+    padding: 10px 20px;
+    background: #28a745;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #218838;
+}
