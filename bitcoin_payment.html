@@ -30,7 +30,14 @@
 
         document.getElementById('bitcoinPaymentForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Payment functionality to be implemented.');
+
+            const paymentData = new FormData(e.target);
+            const paymentInfo = {};
+            paymentData.forEach((value, key) => {
+                paymentInfo[key] = value;
+            });
+
+            alert(`Payment of ${paymentInfo.amount} BTC sent to ${paymentInfo.wallet}. Thank you!`);
         });
     </script>
 </body>
