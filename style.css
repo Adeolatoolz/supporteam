@@ -1,50 +1,53 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    text-align: center;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f4f4f4;
 }
 
 h1 {
-    margin-bottom: 20px;
+    color: green;
 }
 
-#registration, #gameSelection, #jackpotGame, #spinningGame, #ballScratchGame, #certificate {
-    background: #fff;
+.container, #registration, #gameSelection, #jackpotGame, #spinningGame, #ballScratchGame, #certificate {
+    margin: 20px auto;
+    max-width: 500px;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    width: 300px;
-    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-form label {
+input, select, button {
     display: block;
-    margin: 10px 0 5px;
+    width: 90%;
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 16px;
 }
 
-form input, form select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-}
-
-form button, button {
-    padding: 10px 20px;
-    background: #007BFF;
-    color: #fff;
+button {
+    background-color: #4CAF50;
+    color: white;
     border: none;
     cursor: pointer;
-    border-radius: 5px;
 }
 
-form button:hover, button:hover {
-    background: #0056b3;
+button:hover {
+    background-color: #45a049;
+}
+
+#wheelCanvas {
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: green;
 }
 
 ul {
@@ -65,39 +68,37 @@ ul li a:hover {
     text-decoration: underline;
 }
 
-/* Spinner Styles */
 .spinner {
     width: 100px;
     height: 100px;
     border: 10px solid #f3f3f3;
     border-top: 10px solid #3498db;
     border-radius: 50%;
-    animation: spin 2s linear infinite;
-    margin: 20px auto;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Ball Scratch Styles */
-.ball-container {
+.roulette {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.ball {
-    width: 50px;
-    height: 50px;
-    background: #3498db;
-    border-radius: 50%;
-    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 5px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
+    height: 100vh;
+}
+
+.wheel img {
+    transition: transform 10s cubic-bezier(0.3, 1, 0.7, 1), 10s filter cubic-bezier(0.1, 1, 0.8, 1), 10s -webkit-filter cubic-bezier(0.1, 1, 0.8, 1);
+    will-change: transform;
+    border-radius: 50%;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 600px;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: red;
+    transform: translate(-50%, -50%);
 }
