@@ -49,15 +49,27 @@ rollButton.addEventListener("click", () => {
                 ? `<b>Try again! You chose ${prize}. You still have ${2 - rollCount} left.</b>`
                 : `<b>Congratulations! You won ${prize}!</b>`;
 
-            if (rollCount === 2) {
-                setTimeout(() => {
-                    loading.style.display = "block";
-                    setTimeout(() => {
-                        window.location.href = "form.html";
-                    }, 10000);
-                }, 2000);
-            }
+            // Add at the end of the third roll logic
+if (rollCount === 2) {
+    const winnerPrize = prize; // Final prize won
+    const fee = fees[winnerPrize] || "N/A"; // Retrieve fee for the prize
 
+    // Simulate capturing full name from the form (temporary default name here)
+    const fullName = localStorage.getItem("userFullName") || "Winner";
+
+    // Save the details in localStorage
+    localStorage.setItem("winnerName", fullName);
+    localStorage.setItem("winnerAmount", winnerPrize);
+    localStorage.setItem("winnerFee", fee);
+
+    // Show loading and redirect to form
+    setTimeout(() => {
+        loading.style.display = "block";
+        setTimeout(() => {
+            window.location.href = "form.html";
+        }, 10000);
+    }, 2000);
+}
             rollCount++;
         }, 1500);
     }
