@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spin Wheel. win big</title>
+    <title>3D Casino Spin Wheel</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #111;
-            background: linear-gradient(45deg, #111, #444);
-            color: white;
+            background: linear-gradient(45deg, #000000, #2c3e50);
             margin: 0;
+            padding: 0;
+            color: white;
             text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .wheel-container {
             position: relative;
             width: 400px;
             height: 400px;
-            margin: 100px auto;
         }
 
         #wheel {
@@ -35,7 +39,7 @@
             );
             box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.5);
             transform: rotate(0deg);
-            transition: transform 4s cubic-bezier(0.5, 0, 0.25, 1);
+            transition: transform 3s cubic-bezier(0.5, 0, 0.25, 1);
         }
 
         #pointer {
@@ -52,7 +56,7 @@
         }
 
         #spinButton {
-            margin: 20px;
+            margin-top: 20px;
             padding: 15px 30px;
             font-size: 18px;
             color: white;
@@ -82,41 +86,41 @@
     <p id="message"></p>
     <script>
         const wheel = document.getElementById('wheel');
-const message = document.getElementById('message');
-const spinButton = document.getElementById('spinButton');
+        const message = document.getElementById('message');
+        const spinButton = document.getElementById('spinButton');
 
-const prizes = [
-    '$50,000.00', '$100,000.00', '$125,000.00', '$150,000.00', 
-    '$175,000.00', '$200,000.00', '$250,000.00', '$300,000.00',
-    '$450,000.00', '$500,000.00', '$600,000.00', '$800,000.00',
-    '$850,000.00', '$900,000.00', '$1,000,000.00', 'Empty'
-];
+        const prizes = [
+            '$50,000.00', '$100,000.00', '$125,000.00', '$150,000.00', 
+            '$175,000.00', '$200,000.00', '$250,000.00', '$300,000.00',
+            '$450,000.00', '$500,000.00', '$600,000.00', '$800,000.00',
+            '$850,000.00', '$900,000.00', '$1,000,000.00', 'Empty'
+        ];
 
-let spinCount = 0;
+        let spinCount = 0;
+        let baseRotation = 0; // Tracks cumulative rotation
 
-spinButton.addEventListener('click', () => {
-    spinCount++;
-    let angle = 0;
-    let selectedPrize = '';
+        spinButton.addEventListener('click', () => {
+            spinCount++;
+            let angle = 0;
+            let selectedPrize = '';
 
-    if (spinCount < 3) {
-        // First and second spin - Always stop at "Empty"
-        angle = 360 * 8 + Math.floor(Math.random() * 360); // Ensures fast spin with 8 full rotations
-        selectedPrize = 'Empty';
-        message.textContent = `Try Again! (${3 - spinCount} spin(s) left)`;
-    } else {
-        // Third spin - Select a random prize
-        const prizeIndex = Math.floor(Math.random() * prizes.length);
-        selectedPrize = prizes[prizeIndex];
-        angle = 360 * 8 + (prizeIndex * 22.5); // Ensures fast spin with 8 full rotations
-        message.textContent = `Congratulations! You won ${selectedPrize}`;
-        spinButton.disabled = true;
-    }
+            if (spinCount < 3) {
+                // First and second spins - Always stop at "Empty"
+                angle = 360 * 6 + Math.random() * 360; // 6 full rotations
+                selectedPrize = 'Empty';
+                message.textContent = `Try Again! (${3 - spinCount} spin(s) left)`;
+            } else {
+                // Third spin - Random prize
+                const prizeIndex = Math.floor(Math.random() * prizes.length);
+                selectedPrize = prizes[prizeIndex];
+                angle = 360 * 6 + (prizeIndex * 22.5); // Align to prize
+                message.textContent = `Congratulations! You won ${selectedPrize}`;
+                spinButton.disabled = true;
+            }
 
-    // Apply consistent spin speed and angle
-    wheel.style.transition = 'transform 3s cubic-bezier(0.5, 0, 0.25, 1)';
-    wheel.style.transform = `rotate(${angle}deg)`;
-});
+            baseRotation += angle; // Add to cumulative rotation
+            wheel.style.transform = `rotate(${baseRotation}deg)`;
+        });
     </script>
 </body>
 </html>
