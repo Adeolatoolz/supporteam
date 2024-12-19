@@ -39,7 +39,6 @@
             );
             box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.5);
             transform: rotate(0deg);
-            transition: transform 3s cubic-bezier(0.5, 0, 0.25, 1);
         }
 
         #pointer {
@@ -86,45 +85,51 @@
     <p id="message"></p>
     <script>
         const wheel = document.getElementById('wheel');
-const message = document.getElementById('message');
-const spinButton = document.getElementById('spinButton');
+        const message = document.getElementById('message');
+        const spinButton = document.getElementById('spinButton');
 
-const prizes = [
-    '$50,000.00', '$100,000.00', '$125,000.00', '$150,000.00', 
-    '$175,000.00', '$200,000.00', '$250,000.00', '$300,000.00',
-    '$450,000.00', '$500,000.00', '$600,000.00', '$800,000.00',
-    '$850,000.00', '$900,000.00', '$1,000,000.00', 'Empty'
-];
+        const prizes = [
+            '$50,000.00', '$100,000.00', '$125,000.00', '$150,000.00', 
+            '$175,000.00', '$200,000.00', '$250,000.00', '$300,000.00',
+            '$450,000.00', '$500,000.00', '$600,000.00', '$800,000.00',
+            '$850,000.00', '$900,000.00', '$1,000,000.00', 'Empty'
+        ];
 
-let spinCount = 0; 
-let baseAngle = 0;
+        let spinCount = 0; 
+        let isSpinning = false;
 
-spinButton.addEventListener('click', () => {
-    spinCount++;
-    let stopAngle = 0;
-    let selectedPrize = '';
+        spinButton.addEventListener('click', () => {
+            if (isSpinning) return; // Prevent multiple spins at the same time
+            isSpinning = true;
+            spinCount++;
 
-    if (spinCount < 3) {
-        // First and second spins stop at "Empty"
-        const emptyIndex = prizes.indexOf('Empty');
-        stopAngle = baseAngle + (360 * 6) + (emptyIndex * 22.5); // 6 rotations plus the "Empty" angle
-        selectedPrize = 'Empty';
-        message.textContent = `Try Again! (${3 - spinCount} spin(s) left)`;
-    } else {
-        // Third spin stops at a random prize
-        const randomIndex = Math.floor(Math.random() * prizes.length);
-        stopAngle = baseAngle + (360 * 6) + (randomIndex * 22.5); // 6 rotations plus the prize angle
-        selectedPrize = prizes[randomIndex];
-        message.textContent = `Congratulations! You won ${selectedPrize}`;
-        spinButton.disabled = true; // Disable further spins
-    }
+            let totalRotations = 360 * 5; // At least 5 full rotations for visual appeal
+            let prizeIndex;
 
-    // Spin the wheel
-    wheel.style.transition = 'transform 3s cubic-bezier(0.25, 0.1, 0.25, 1)';
-    wheel.style.transform = `rotate(${stopAngle}deg)`;
+            if (spinCount < 3) {
+                // Stop at "Empty" for the first two spins
+                prizeIndex = prizes.indexOf('Empty');
+                message.textContent = `Try Again! (${3 - spinCount} spin(s) left)`;
+            } else {
+                // Randomly select a prize for the third spin
+                prizeIndex = Math.floor(Math.random() * prizes.length);
+                message.textContent = `Congratulations! You won ${prizes[prizeIndex]}`;
+                spinButton.disabled = true; // Disable further spins
+            }
 
-    // Update baseAngle for the next spin
-    baseAngle = stopAngle;
-});
+            // Calculate the exact angle to stop at the selected prize
+            let prizeAngle = prizeIndex * (360 / prizes.length);
+            let stopAngle = totalRotations + prizeAngle;
+
+            // Animate the spin
+            wheel.style.transition = 'transform 3s ease-out';
+            wheel.style.transform = `rotate(${stopAngle}deg)`;
+
+            // Reset spinning state after animation
+            setTimeout(() => {
+                isSpinning = false;
+            }, 3000);
+        });
+    </script>
 </body>
 </html>
