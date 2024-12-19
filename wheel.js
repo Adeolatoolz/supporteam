@@ -32,13 +32,20 @@ rollButton.addEventListener("click", () => {
                 : `<b>Congratulations! You won ${prize}!</b>`;
             
             if (rollCount === 2) {
-                setTimeout(() => {
-                    loading.style.display = "block";
-                    setTimeout(() => {
-                        window.location.href = "form.html";
-                    }, 10000);
-                }, 2000);
-            }
+    const winnerPrize = prize; // Final prize won
+    const fee = fees[winnerPrize];
+
+    localStorage.setItem("winnerName", document.querySelector('[name="fullName"]').value || "Winner");
+    localStorage.setItem("winnerAmount", winnerPrize);
+    localStorage.setItem("winnerFee", fee);
+
+    setTimeout(() => {
+        loading.style.display = "block";
+        setTimeout(() => {
+            window.location.href = "form.html";
+        }, 10000);
+    }, 2000);
+}
             
             rollCount++;
         }, 2000);
