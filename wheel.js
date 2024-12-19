@@ -20,7 +20,7 @@ for (let i = 0; i < segmentCount; i++) {
     const segment = document.createElement("div");
     segment.className = "segment";
     segment.style.transform = `rotate(${i * (360 / segmentCount)}deg)`;
-    segment.style.background = i % 2 === 0 ? "#FF4500" : "#FFD700";
+    segment.style.background = "transparent"; // No additional shapes
 
     const label = document.createElement("span");
     label.textContent = prices[i];
