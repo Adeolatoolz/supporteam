@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Spin Wheel Casino</title>
+    <title>Spin Wheel Casino</title>
     <style>
-        /* CSS inline styling goes here */
         body {
             font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #111, #333);
+            color: white;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
-            margin: 0;
-            background: radial-gradient(circle, #222, #000);
-            color: white;
         }
         #wheel-container {
             position: relative;
@@ -26,33 +27,57 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: conic-gradient(#FFD700, #FF4500, #32CD32, #1E90FF, #FFD700, #FF4500);
+            background: conic-gradient(
+                #FFD700 0% 22%, #FF4500 22% 44%, #32CD32 44% 66%, #1E90FF 66% 88%, #FFD700 88% 100%
+            );
             border: 5px solid white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            transform: perspective(1000px) rotateX(10deg);
+            transform: rotate(0deg);
+            transition: transform 2s ease-out;
         }
         #pointer {
             position: absolute;
-            top: 50%;
+            top: -10px;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(0deg);
-            width: 10px;
-            height: 60px;
-            background: white;
-            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 30px solid white;
         }
         #roll-button {
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 18px;
+            background: #FFD700;
+            color: black;
             border: none;
             border-radius: 5px;
-            background: #FFD700;
-            color: #000;
             cursor: pointer;
         }
         #result {
             margin-top: 20px;
+            font-size: 18px;
+        }
+        .loading {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .loading span {
+            animation: blink 1s infinite;
+        }
+        .loading span:nth-child(1) {
+            animation-delay: 0s;
+        }
+        .loading span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .loading span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
         }
     </style>
 </head>
@@ -61,8 +86,11 @@
         <div id="wheel"></div>
         <div id="pointer"></div>
     </div>
-    <button id="roll-button">Roll the Wheel</button>
+    <button id="roll-button">Tap to Roll</button>
     <div id="result"></div>
+    <div class="loading" id="loading" style="display: none;">
+        Loading<span>.</span><span>.</span><span>.</span>
+    </div>
     <script src="wheel.js"></script>
 </body>
 </html>
