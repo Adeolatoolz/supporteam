@@ -3,176 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Lottery Spin Wheel</title>
+    <title>3D Spin Wheel Casino</title>
     <style>
-        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #1b1f3a, #3a5072);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #111, #444);
             color: #fff;
-            text-align: center;
-            overflow: hidden;
+            font-family: Arial, sans-serif;
             height: 100vh;
         }
-        h1 {
-            margin-top: 10px;
-            color: #ffc107;
-            font-size: 1.5rem;
-        }
-        /* Wheel Container */
-        .wheel-container {
+
+        #wheel-container {
             position: relative;
-            margin: 50px auto;
-            width: 90%;
-            max-width: 500px;
-            height: 90%;
-            max-height: 500px;
+            width: 300px;
+            height: 300px;
             perspective: 1000px;
         }
-        /* The Wheel */
-        .wheel {
-            position: absolute;
+
+        #wheel {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: #f9f9f9;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transform: rotate(0deg);
-            transition: transform 5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            background: conic-gradient(
+                #ffd700 0deg 22.5deg, #ff4500 22.5deg 45deg,
+                #ff6347 45deg 67.5deg, #32cd32 67.5deg 90deg,
+                #00bfff 90deg 112.5deg, #ffa500 112.5deg 135deg,
+                #8a2be2 135deg 157.5deg, #7fff00 157.5deg 180deg,
+                #ff00ff 180deg 202.5deg, #4169e1 202.5deg 225deg,
+                #ff4500 225deg 247.5deg, #ffd700 247.5deg 270deg,
+                #800080 270deg 292.5deg, #dc143c 292.5deg 315deg,
+                #00ff00 315deg 337.5deg, #0000ff 337.5deg 360deg
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-origin: center;
+            animation: spin 0.3s ease-out;
         }
-        /* Wheel Segments */
-        .wheel .segment {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform-origin: center -250px;
-            width: 100%;
-            text-align: center;
-            transform: rotate(calc(22.5deg * var(--i))) translateX(-50%);
-        }
-        .wheel .segment span {
-            display: block;
-            color: #000;
-            font-weight: bold;
-            font-size: 0.9rem;
-            transform: rotate(calc(-22.5deg * var(--i)));
-        }
-        /* Pointer */
+
         .pointer {
-            position: absolute;
-            top: 50%;
-            left: 50%;
             width: 0;
             height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-bottom: 30px solid #ffc107;
-            transform: translate(-50%, -170%);
-            z-index: 100;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 30px solid #fff;
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
         }
-        /* Button */
-        button {
-            background: #ffc107;
-            color: #000;
+
+        #spin-button {
+            margin-top: 20px;
             padding: 10px 20px;
-            font-size: 1rem;
+            background-color: #ff4500;
             border: none;
-            border-radius: 5px;
+            color: #fff;
             cursor: pointer;
-            margin-top: 20px;
-            transition: background 0.3s;
+            border-radius: 5px;
+            font-size: 1.2rem;
         }
-        button:hover {
-            background: #ff9800;
-        }
-        /* Result Display */
-        .result {
-            margin-top: 20px;
-            font-size: 1rem;
-        }
-        /* Mobile Styles */
-        @media (max-width: 600px) {
-            .wheel-container {
-                margin: 20px auto;
-                width: 300px;
-                height: 300px;
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
             }
-            .pointer {
-                transform: translate(-50%, -150%);
-            }
-            .wheel .segment span {
-                font-size: 0.7rem;
+            to {
+                transform: rotate(360deg);
             }
         }
     </style>
 </head>
 <body>
-    <h1>AI Lottery Spin Wheel</h1>
-    <div class="wheel-container">
-        <div class="pointer"></div>
-        <div class="wheel" id="wheel">
-            <!-- Adding segments -->
-            <div class="segment" style="--i:0"><span>$50,000.00</span></div>
-            <div class="segment" style="--i:1"><span>$100,000.00</span></div>
-            <div class="segment" style="--i:2"><span>$125,000.00</span></div>
-            <div class="segment" style="--i:3"><span>$150,000.00</span></div>
-            <div class="segment" style="--i:4"><span>$175,000.00</span></div>
-            <div class="segment" style="--i:5"><span>$200,000.00</span></div>
-            <div class="segment" style="--i:6"><span>$250,000.00</span></div>
-            <div class="segment" style="--i:7"><span>$300,000.00</span></div>
-            <div class="segment" style="--i:8"><span>$450,000.00</span></div>
-            <div class="segment" style="--i:9"><span>$500,000.00</span></div>
-            <div class="segment" style="--i:10"><span>$600,000.00</span></div>
-            <div class="segment" style="--i:11"><span>$800,000.00</span></div>
-            <div class="segment" style="--i:12"><span>$850,000.00</span></div>
-            <div class="segment" style="--i:13"><span>$900,000.00</span></div>
-            <div class="segment" style="--i:14"><span>$1,000,000.00</span></div>
-            <div class="segment" style="--i:15"><span>$ Empty</span></div>
+    <h1>Spin & Win</h1>
+    <div id="wheel-container">
+        <div id="wheel">
+            <div class="pointer"></div>
         </div>
     </div>
-    <button id="spinButton">Spin the Wheel</button>
-    <div class="result" id="result"></div>
+    <button id="spin-button">Spin</button>
 
-    <script>
-        const wheel = document.getElementById('wheel');
-        const spinButton = document.getElementById('spinButton');
-        const result = document.getElementById('result');
-        let spins = 0;
-        const maxSpins = 3;
-
-        spinButton.addEventListener('click', () => {
-            if (spins >= maxSpins) {
-                result.textContent = "No spins left. Reload the page to try again.";
-                return;
-            }
-
-            spins++;
-            const segmentCount = 16;
-            const randomDegree = Math.floor(Math.random() * 360 + 720 * spins); // Increase randomness with spins
-            wheel.style.transform = `rotate(${randomDegree}deg)`;
-
-            setTimeout(() => {
-                const prizeIndex = Math.floor(((randomDegree % 360) / (360 / segmentCount)) + 0.5) % segmentCount;
-                const prizes = [
-                    '$50,000.00', '$100,000.00', '$125,000.00', '$150,000.00',
-                    '$175,000.00', '$200,000.00', '$250,000.00', '$300,000.00',
-                    '$450,000.00', '$500,000.00', '$600,000.00', '$800,000.00',
-                    '$850,000.00', '$900,000.00', '$1,000,000.00', '$ Empty'
-                ];
-                const prize = prizes[prizeIndex];
-
-                if (spins < maxSpins && prize === '$ Empty') {
-                    result.textContent = `Try again! You have ${maxSpins - spins} spin(s) left.`;
-                } else if (spins === maxSpins && prize === '$ Empty') {
-                    result.textContent = 'Sorry, you didn\'t win this time. Better luck next time!';
-                } else {
-                    result.textContent = `🎉 Congratulations! You won ${prize}!`;
-                    spinButton.disabled = true;
-                }
-            }, 5000); // Match the spin duration
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
