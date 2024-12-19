@@ -24,6 +24,7 @@ rollButton.addEventListener("click", () => {
         const segmentIndex = prices.indexOf(prize);
         const randomDegree = segmentIndex * (360 / prices.length) + 360 * 3;
         
+        wheel.style.transition = `transform ${rollCount === 2 ? "1s" : "1.5s"} ease-out`; // Faster for 2nd and 3rd
         wheel.style.transform = `rotate(${randomDegree}deg)`;
         
         setTimeout(() => {
@@ -32,22 +33,15 @@ rollButton.addEventListener("click", () => {
                 : `<b>Congratulations! You won ${prize}!</b>`;
             
             if (rollCount === 2) {
-    const winnerPrize = prize; // Final prize won
-    const fee = fees[winnerPrize];
-
-    localStorage.setItem("winnerName", document.querySelector('[name="fullName"]').value || "Winner");
-    localStorage.setItem("winnerAmount", winnerPrize);
-    localStorage.setItem("winnerFee", fee);
-
-    setTimeout(() => {
-        loading.style.display = "block";
-        setTimeout(() => {
-            window.location.href = "form.html";
-        }, 10000);
-    }, 2000);
-}
+                setTimeout(() => {
+                    loading.style.display = "block";
+                    setTimeout(() => {
+                        window.location.href = "form.html";
+                    }, 10000);
+                }, 2000);
+            }
             
             rollCount++;
-        }, 2000);
+        }, 1500); // Adjust for new spin speed
     }
 });
