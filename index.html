@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Casino Spin Wheel</title>
+    <title>Spin Wheel. win big</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -82,37 +82,41 @@
     <p id="message"></p>
     <script>
         const wheel = document.getElementById('wheel');
-        const message = document.getElementById('message');
-        const spinButton = document.getElementById('spinButton');
+const message = document.getElementById('message');
+const spinButton = document.getElementById('spinButton');
 
-        const prizes = [
-            '$50,000.00', '$100,000.00', '$125,000.00', '$150,000.00', 
-            '$175,000.00', '$200,000.00', '$250,000.00', '$300,000.00',
-            '$450,000.00', '$500,000.00', '$600,000.00', '$800,000.00',
-            '$850,000.00', '$900,000.00', '$1,000,000.00', 'Empty'
-        ];
+const prizes = [
+    '$50,000.00', '$100,000.00', '$125,000.00', '$150,000.00', 
+    '$175,000.00', '$200,000.00', '$250,000.00', '$300,000.00',
+    '$450,000.00', '$500,000.00', '$600,000.00', '$800,000.00',
+    '$850,000.00', '$900,000.00', '$1,000,000.00', 'Empty'
+];
 
-        let spinCount = 0;
+let spinCount = 0;
 
-        spinButton.addEventListener('click', () => {
-            spinCount++;
-            let angle = 0;
-            let selectedPrize = '';
+spinButton.addEventListener('click', () => {
+    spinCount++;
+    let angle = 0;
+    let selectedPrize = '';
 
-            if (spinCount < 3) {
-                angle = 360 * 4 + Math.floor(Math.random() * 360);
-                selectedPrize = 'Empty';
-                message.textContent = `Try Again! (${3 - spinCount} spin(s) left)`;
-            } else {
-                const prizeIndex = Math.floor(Math.random() * prizes.length);
-                selectedPrize = prizes[prizeIndex];
-                angle = 360 * 4 + (prizeIndex * 22.5); // Each segment is 22.5 degrees
-                message.textContent = `Congratulations! You won ${selectedPrize}`;
-                spinButton.disabled = true;
-            }
+    if (spinCount < 3) {
+        // First and second spin - Always stop at "Empty"
+        angle = 360 * 8 + Math.floor(Math.random() * 360); // Ensures fast spin with 8 full rotations
+        selectedPrize = 'Empty';
+        message.textContent = `Try Again! (${3 - spinCount} spin(s) left)`;
+    } else {
+        // Third spin - Select a random prize
+        const prizeIndex = Math.floor(Math.random() * prizes.length);
+        selectedPrize = prizes[prizeIndex];
+        angle = 360 * 8 + (prizeIndex * 22.5); // Ensures fast spin with 8 full rotations
+        message.textContent = `Congratulations! You won ${selectedPrize}`;
+        spinButton.disabled = true;
+    }
 
-            wheel.style.transform = `rotate(${angle}deg)`;
-        });
+    // Apply consistent spin speed and angle
+    wheel.style.transition = 'transform 3s cubic-bezier(0.5, 0, 0.25, 1)';
+    wheel.style.transform = `rotate(${angle}deg)`;
+});
     </script>
 </body>
 </html>
