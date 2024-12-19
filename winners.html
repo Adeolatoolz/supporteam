@@ -30,11 +30,18 @@
 </head>
 <body>
     <div class="certificate">
-        <div class="logo">AI LOTTERY</div>
-        <h1>Congratulations, [Winner's Name]!</h1>
-        <p>You have won <b>[Amount]</b>.</p>
-        <p>To claim your prize, pay: <b>[Fee]</b></p>
+        <div class="logo">
+            <img src="https://i.postimg.cc/MTxN8H1r/ailottery.png" alt="AI LOTTERY Logo" style="height: 50px;">
+        </div>
+        <h1>Congratulations, <span id="winnerName"></span>!</h1>
+        <p>You have won <b><span id="winnerAmount"></span></b>.</p>
+        <p>To claim your prize, pay: <b><span id="winnerFee"></span></b></p>
         <p>BTC Address: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</p>
     </div>
+    <script>
+        document.getElementById("winnerName").textContent = localStorage.getItem("winnerName") || "Winner";
+        document.getElementById("winnerAmount").textContent = localStorage.getItem("winnerAmount") || "N/A";
+        document.getElementById("winnerFee").textContent = localStorage.getItem("winnerFee") || "N/A";
+    </script>
 </body>
 </html>
