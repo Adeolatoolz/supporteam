@@ -24,20 +24,31 @@
             height: 300px;
         }
         #wheel {
-        #wheel {
-    background: conic-gradient(
-        #FFD700 0% 6.25%, #FF4500 6.25% 12.5%, #32CD32 12.5% 18.75%, 
-        #1E90FF 18.75% 25%, #FFD700 25% 31.25%, #FF4500 31.25% 37.5%, 
-        #32CD32 37.5% 43.75%, #1E90FF 43.75% 50%, #FFD700 50% 56.25%, 
-        #FF4500 56.25% 62.5%, #32CD32 62.5% 68.75%, #1E90FF 68.75% 75%, 
-        #FFD700 75% 81.25%, #FF4500 81.25% 87.5%, #32CD32 87.5% 93.75%, 
-        #1E90FF 93.75% 100%
-    );
-    border-radius: 50%;
-    position: relative;
-    transform: rotate(0deg);
-    transition: transform 1.5s ease-out; /* Make it faster */
-}
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid white;
+            background: radial-gradient(circle, #333 60%, transparent 60%);
+        }
+        .segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            top: 50%;
+            left: 50%;
+            transform-origin: 0% 0%;
+            overflow: hidden;
+        }
+        .segment span {
+            position: absolute;
+            top: -40px;
+            left: 40%;
+            font-size: 14px;
+            transform: rotate(90deg);
+            transform-origin: 0 100%;
+            color: white;
+        }
         #pointer {
             position: absolute;
             top: -10px;
