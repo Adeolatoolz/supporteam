@@ -16,6 +16,7 @@ const fees = {
 
 let gameCount = 0;
 
+// Function to create slots for each ring
 function createSlots(ring) {
     const slotAngle = 360 / SLOTS_PER_REEL;
     const seed = getSeed();
@@ -30,17 +31,39 @@ function createSlots(ring) {
     }
 }
 
+// Generate random seed
 function getSeed() {
     return Math.floor(Math.random() * SLOTS_PER_REEL);
 }
 
-// Initialize the rings
+// Initialize rings
 document.querySelectorAll('.ring').forEach(createSlots);
 
 const spinButton = document.getElementById('spin-button');
 const resultDisplay = document.getElementById('result');
+const xrayCheckbox = document.getElementById('xray');
+const perspectiveCheckbox = document.getElementById('perspective');
 
-// Handle spin logic
+// Add perspective toggle functionality
+perspectiveCheckbox.addEventListener('change', () => {
+    const stage = document.getElementById('stage');
+    if (perspectiveCheckbox.checked) {
+        stage.classList.remove('perspective-on');
+        stage.classList.add('perspective-off');
+    } else {
+        stage.classList.remove('perspective-off');
+        stage.classList.add('perspective-on');
+    }
+});
+
+// Add X-ray toggle functionality
+xrayCheckbox.addEventListener('change', () => {
+    document.querySelectorAll('.ring').forEach(ring => {
+        ring.style.backgroundColor = xrayCheckbox.checked ? "rgba(255, 255, 255, 0.2)" : "transparent";
+    });
+});
+
+// Handle spinning logic
 spinButton.addEventListener('click', () => {
     gameCount++;
     if (gameCount <= 3) {
