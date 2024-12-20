@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #111, #333);
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        #stage {
+            margin: 20px auto;
+            width: 600px;
+            padding: 20px 0;
+        }
+
+        .perspective-on {
+            -webkit-perspective: 1000px;
+            -moz-perspective: 1000px;
+            perspective: 1000px;
+        }
+
+        .perspective-off {
+            -webkit-perspective: 0;
+            -moz-perspective: 0;
+            perspective: 0;
+        }
+
+        #rotate {
+            margin: 0 auto;
+            width: 450px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ring {
+            position: relative;
+            width: 100px;
+            height: 300px;
+            margin: 0 10px;
+            transform-style: preserve-3d;
+            animation: spin 0s infinite;
+        }
+
+        .slot {
+            position: absolute;
+            width: 100px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background: #FFD700;
+            border: 1px solid white;
+            color: black;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        button {
+            margin: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background: #FFD700;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Slot Machine</h1>
+    <div id="stage" class="perspective-on">
+        <div id="rotate">
+            <div id="ring1" class="ring"></div>
+            <div id="ring2" class="ring"></div>
+            <div id="ring3" class="ring"></div>
+        </div>
+        <button id="spin-button">Start Spinning</button>
+        <p id="result"></p>
+    </div>
+    <script src="slot-machine.js"></script>
+</body>
+</html>
