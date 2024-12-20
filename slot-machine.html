@@ -63,7 +63,7 @@
         }
 
         button {
-            margin: 20px;
+            margin: 40px 0 20px; /* Added margin to space the button */
             padding: 10px 20px;
             font-size: 18px;
             background: #FFD700;
@@ -71,6 +71,15 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
         }
     </style>
 </head>
@@ -83,6 +92,16 @@
             <div id="ring3" class="ring"></div>
         </div>
         <button id="spin-button">Start Spinning</button>
+        <div>
+            <label>
+                <input type="checkbox" id="xray">
+                Show Inner Workings
+            </label>
+            <label>
+                <input type="checkbox" id="perspective">
+                Toggle Perspective
+            </label>
+        </div>
         <p id="result"></p>
     </div>
     <script src="slot-machine.js"></script>
