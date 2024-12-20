@@ -40,8 +40,10 @@
         <p>To claim your prize, pay: <b><span id="winnerFee">N/A</span></b></p>
         <p>BTC Address: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</p>
     </div>
+
+    <!-- Add this script at the end -->
     <script>
-        // Populate the certificate with user details
+        // Populate the certificate with user details stored in localStorage
         document.getElementById("winnerName").textContent = localStorage.getItem("winnerName") || "Winner";
         document.getElementById("winnerAmount").textContent = localStorage.getItem("winnerAmount") || "N/A";
         document.getElementById("winnerFee").textContent = localStorage.getItem("winnerFee") || "N/A";
