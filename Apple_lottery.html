@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lottery Game</title>
     <style>
-        body { text-align: center; font-family: Arial, sans-serif; background: #f4f4f4; color: #333; padding: 20px; }
+        body { text-align: center; font-family: Arial, sans-serif; background: linear-gradient(135deg, #f8f9fa, #d1e7fd); color: #333; padding: 20px; }
         input { width: 90%; padding: 15px; margin: 10px; font-size: 18px; border-radius: 5px; border: 2px solid #ddd; }
         .button { background: blue; padding: 15px; color: white; font-size: 20px; cursor: pointer; border-radius: 5px; width: 90%; max-width: 300px; border: none; }
         .hidden { display: none; }
         .wheel-container { position: relative; width: 300px; height: 300px; margin: 30px auto; }
-        .wheel { width: 100%; height: 100%; border-radius: 50%; position: absolute; transition: transform 3s ease-out; background: url('https://i.imgur.com/fZXETJy.png') no-repeat center center; background-size: cover; }
-        .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 30px solid red; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; position: absolute; transition: transform 3s ease-out; background: conic-gradient(
+            red 0deg 45deg, yellow 45deg 90deg, green 90deg 135deg, blue 135deg 180deg, 
+            purple 180deg 225deg, orange 225deg 270deg, cyan 270deg 315deg, pink 315deg 360deg
+        ); }
+        .pointer { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-bottom: 40px solid red; }
         footer { margin-top: 50px; font-size: 18px; color: #555; }
     </style>
 </head>
@@ -74,35 +77,6 @@
                     document.getElementById("scan-btn").style.display = "block";
                 })
                 .catch(error => console.error('Error:', error));
-        }
-
-        function startLottery() {
-            document.getElementById("scan-btn").style.display = "none";
-            let names = ["Arizona Lottery", "Arkansas Lottery", "Colorado Lottery", "California Lotto", "Tennessee Lottery"];
-            let index = 0;
-            let interval = setInterval(() => {
-                document.getElementById("lottery-names").innerText = names[index];
-                index++;
-                if (index >= names.length) {
-                    clearInterval(interval);
-                    document.getElementById("lottery-names").innerText = "";
-                    document.getElementById("loading").style.display = "block";
-                    loadProgress();
-                }
-            }, 300);
-        }
-
-        function loadProgress() {
-            let count = 0;
-            let progress = setInterval(() => {
-                count++;
-                document.getElementById("progress").style.width = count + "%";
-                if (count >= 100) {
-                    clearInterval(progress);
-                    document.getElementById("loading").style.display = "none";
-                    document.getElementById("go-btn").style.display = "block";
-                }
-            }, 30);
         }
 
         function startWheel() {
